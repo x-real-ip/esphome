@@ -17,7 +17,7 @@ esphome:
 <<: !include common/web_server.yaml
 <<: !include common/time.yaml
 <<: !include common/uptime_sensor.yaml
-<<: !include common/wifi_sensor.yaml
+<<: !include common/wifi_sensors.yaml
 <<: !include common/version_sensor.yaml
 <<: !include common/status_sensor.yaml
 <<: !include common/restart_switch.yaml
