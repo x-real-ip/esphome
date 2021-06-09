@@ -5,4 +5,3 @@ sensor:
     unit_of_measurement: minutes
     filters:
       - lambda: return x / 60.0;
-  
