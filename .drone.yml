@@ -19,13 +19,6 @@ kind: pipeline
 name: test
 
 steps:
-  - name: latest
-    image: esphome/esphome:latest
-    pull: always
-    entrypoint:
-      - /bin/bash
-    command:
-      - find ./config/ -maxdepth 1 -type f -name "*.yaml" ! -name "secrets.yaml" -print0 | while IFS= read -r -d '' file ; do esphome "$file" config ; done
 
   - name: beta
     image: esphome/esphome:beta
@@ -34,3 +27,11 @@ steps:
     commands:
       - "for file in $(find /drone/src/esphome -type f -name \"*.yaml\" -not \
          -name \"secrets.yaml\"); do esphome \"$file\" config; done"
+
+  - name: latest
+    image: esphome/esphome:latest
+    pull: always
+    entrypoint:
+      - /bin/bash
+    command:
+      - find ./config/ -maxdepth 1 -type f -name "*.yaml" ! -name "secrets.yaml" -print0 | while IFS= read -r -d '' file ; do esphome "$file" config ; done
