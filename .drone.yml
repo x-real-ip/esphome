@@ -25,6 +25,7 @@ steps:
     pull: always
     failure: ignore
     commands:
+      - cd /config
       - ls -l
 
   - name: latest
