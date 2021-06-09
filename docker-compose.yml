@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   prd-esphome-app:
-    image: esphome/esphome
+    image: esphome/esphome:latest
     container_name: prd-esphome-app
     restart: always
     env_file: prd-esphome-app.env

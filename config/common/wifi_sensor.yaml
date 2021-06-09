@@ -1,5 +1,5 @@
+---
 sensor:
-
   - platform: wifi_signal
     name: ${device_name}_wifi_signal
     update_interval: 20s
@@ -10,7 +10,6 @@ sensor:
           send_first_at: 3
 
 text_sensor:
-
   - platform: wifi_info
     ip_address:
       name: ${device_name}_wifi_ip
