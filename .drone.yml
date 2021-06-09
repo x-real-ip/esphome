@@ -23,7 +23,7 @@ steps:
     image: esphome/esphome:latest
     pull: always
     commands:
-      - "for file in $(find /drone/src/esphome -type f -name \"*.yaml\" -not \
+      - "for file in $(find /config -type f -name \"*.yaml\" -not \
       -name \"secrets.yaml\"); do esphome \"$file\" config; done"
 
   - name: beta
@@ -31,5 +31,5 @@ steps:
     pull: always
     failure: ignore
     commands:
-      - "for file in $(find /drone/src/esphome -type f -name \"*.yaml\" -not \
+      - "for file in $(find /config -type f -name \"*.yaml\" -not \
       -name \"secrets.yaml\"); do esphome \"$file\" config; done"
