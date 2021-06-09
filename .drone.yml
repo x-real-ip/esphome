@@ -25,7 +25,7 @@ steps:
     pull: always
     failure: ignore
     commands:
-      - cd /config && ls -ld
+      - cd /config && ls
 
   - name: latest
     image: esphome/esphome:latest
