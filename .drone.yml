@@ -24,7 +24,7 @@ steps:
     pull: always
     commands:
       - mv config/secrets.yaml.example config/secrets.yaml
-      - configcheck.sh
+      - /bin/bash configcheck.sh
 
 
   - name: beta
