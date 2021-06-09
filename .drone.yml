@@ -25,7 +25,7 @@ steps:
     pull: always
     failure: ignore
     commands:
-      - echo ${PWD}
+      - ls -l
 
   - name: latest
     image: esphome/esphome:latest
