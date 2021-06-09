@@ -25,7 +25,7 @@ steps:
     pull: always
     failure: ignore
     commands:
-      - "for file in $(find /drone/src/esp-home -type f -name \"*.yaml\" -not \
+      - "for file in $(find /drone/src/esp-home/config -type f -name \"*.yaml\" -not \
          -name \"secrets.yaml\"); do esphome \"$file\" config; done"
 
   - name: latest
