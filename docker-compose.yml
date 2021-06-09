@@ -1,0 +1,12 @@
+version: '3.8'
+
+services:
+  prd-esphome-app:
+    image: esphome/esphome
+    container_name: prd-esphome-app
+    restart: always
+    env_file: prd-esphome-app.env
+    network_mode: host  
+    volumes:
+      - ./config:/config:rw
+      - /etc/localtime:/etc/localtime:ro
