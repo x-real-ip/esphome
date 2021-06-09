@@ -33,4 +33,4 @@ steps:
     image: esphome/esphome:latest
     pull: always
     commands:
-      - for file in /config/*.yaml ; do esphome "$file" config ; done
+      - for file in ./config/*.yaml ; do esphome "$file" config ; done
