@@ -13,3 +13,23 @@ steps:
     commands:
       - mv prd-esphome-app.env.example prd-esphome-app.env
       - docker-compose config -q
+
+---
+kind: pipeline
+name: test
+
+steps:
+  - name: latest
+    image: esphome/esphome:latest
+    pull: always
+    commands:
+      - "for file in $(find /drone/src/esphome -type f -name \"*.yaml\" -not \
+      -name \"secrets.yaml\"); do esphome \"$file\" config; done"
+
+  - name: beta
+    image: esphome/esphome:beta
+    pull: always
+    failure: ignore
+    commands:
+      - "for file in $(find /drone/src/esphome -type f -name \"*.yaml\" -not \
+      -name \"secrets.yaml\"); do esphome \"$file\" config; done"
