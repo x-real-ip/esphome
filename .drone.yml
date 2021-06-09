@@ -33,4 +33,5 @@ steps:
     image: esphome/esphome:latest
     pull: always
     commands:
+      - mv config/secrets.yaml.example config/secrets.yaml
       - for file in ./config/*.yaml ; do esphome "$file" config ; done
