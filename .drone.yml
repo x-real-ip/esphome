@@ -1,0 +1,15 @@
+---
+kind: pipeline
+name: validate
+
+steps:
+  - name: lint
+    image: sdesbure/yamllint:latest
+    commands:
+      - yamllint -c ./.yamllint .
+
+  - name: docker-compose
+    image: tmaier/docker-compose:latest
+    commands:
+      - mv prd-esphome-app.env.example prd-esphome-app.env
+      - docker-compose config -q
