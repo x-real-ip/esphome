@@ -25,4 +25,4 @@ steps:
     pull: always
     commands:
       - mv config/secrets.yaml.example config/secrets.yaml
-      - find /config -maxdepth 1 -name "*.yaml" -print0 | while read $file ; do esphome "$file" config ; done
+      - find /config -name "*.yaml" | while read fname; do echo "$fname" ; done
