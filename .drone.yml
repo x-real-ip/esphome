@@ -25,4 +25,4 @@ steps:
     pull: always
     commands:
       - mv config/secrets.yaml.example config/secrets.yaml
-      - find /config -type f -name '*.yaml' -not -name 'secret.yaml' -exec esphome '{}' config \;
+      - for file in /config/*.yaml; do if [ "${file##*/}" != 'secret.yaml' ]; then esphome "$file" config; fi; done
