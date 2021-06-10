@@ -25,4 +25,4 @@ steps:
     pull: always
     commands:
       - mv config/secrets.yaml.example config/secrets.yaml
-      - find /config -name "*.yaml" | while read fname; do echo "$fname" ; done
+      - find /config/ -name "*.yaml" | while read fname; do echo "$fname" ; done
