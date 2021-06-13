@@ -33,7 +33,7 @@ sensor:
   - platform: bh1750
     name: "${device_name}_illuminance"
     address: 0x23
-    measurement_time: 31
+    measurement_duration: 31
     update_interval: 2s
 
   - platform: bme280
