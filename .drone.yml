@@ -68,6 +68,18 @@ steps:
         - cd /home/coen/docker-home-services/${DRONE_REPO_NAME}/
         - docker-compose up -d
 
+  - name: upload to devices
+    image: appleboy/drone-ssh
+    settings:
+      host: docker.stam.lan
+      username: coen
+      password:
+        from_secret: ssh_password
+      port: 22
+      script:
+        - cd /home/coen/docker-home-services/${DRONE_REPO_NAME}/config/
+        - for file in $(find -maxdepth 1 -type f -name "*.yaml" -not -name "secrets.yaml"); do docker exec prd-esphome-app esphome "$file" upload; done
+
   - name: cleanup
     image: appleboy/drone-ssh
     settings:
