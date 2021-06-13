@@ -34,3 +34,49 @@ steps:
     commands:
       - mv config/secrets.yaml.example config/secrets.yaml
       - for file in $(find config -maxdepth 1 -type f -name "*.yaml" -not -name "secrets.yaml"); do esphome "$file" config; done
+
+---
+kind: pipeline
+type: docker
+name: upgrade
+
+depends_on:
+  - validate
+  - test
+
+steps:
+  - name: git pull
+    image: appleboy/drone-ssh
+    settings:
+      host: docker.stam.lan
+      username: coen
+      password:
+        from_secret: ssh_password
+      port: 22
+      script:
+        - cd /home/coen/docker-home-services/esphome/
+        - git pull
+
+  - name: docker compose up
+    image: appleboy/drone-ssh
+    settings:
+      host: docker.stam.lan
+      username: coen
+      password:
+        from_secret: ssh_password
+      port: 22
+      script:
+        - cd /home/coen/docker-home-services/esphome/
+        - docker-compose up -d
+
+  - name: cleanup
+    image: appleboy/drone-ssh
+    settings:
+      host: docker.stam.lan
+      username: coen
+      password:
+        from_secret: ssh_password
+      port: 22
+      script:
+        - cd /home/coen/docker-home-services/esphome/
+        - docker image prune --force

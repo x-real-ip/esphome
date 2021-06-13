@@ -1,7 +1,7 @@
 ---
 substitutions:
   device_name: childlock_kitchen
-  device_comment: "ESP with relay and electromagnet as doorlock"
+  device_comment: "ESP with relay to turn on or off a electromagnet lock"
 
 esphome:
   name: ${device_name}
