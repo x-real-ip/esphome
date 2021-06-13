@@ -90,3 +90,17 @@ steps:
       port: 22
       script:
         - cd /home/coen/docker-home-services/${DRONE_REPO_NAME}/
+
+  - name: create timestamp
+    image: appleboy/drone-ssh
+    settings:
+      host: docker.stam.lan
+      username: coen
+      password:
+        from_secret: ssh_password
+      port: 22
+      script:
+        - cd /home/coen/docker-home-services/${DRONE_REPO_NAME}/
+        - echo $(date '+%Y-%m-%d %H:%M:%S') > .drone_last_run
+        - while read line; do export drone_last_run=$line; done < .drone_last_run
+        - echo ${drone_last_run}
