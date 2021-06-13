@@ -78,7 +78,7 @@ steps:
       port: 22
       script:
         - cd /home/coen/docker-home-services/${DRONE_REPO_NAME}/config/
-        - for file in $(find -maxdepth 1 -type f -name "*.yaml" -not -name "secrets.yaml"); do docker exec prd-esphome-app esphome "$file" upload; done
+#        - for file in $(find -maxdepth 1 -type f -name "*.yaml" -not -name "secrets.yaml"); do docker exec prd-esphome-app esphome "$file" upload; done
 
   - name: cleanup
     image: appleboy/drone-ssh
@@ -102,5 +102,5 @@ steps:
       script:
         - cd /home/coen/docker-home-services/${DRONE_REPO_NAME}/
         - echo $(date '+%Y-%m-%d %H:%M:%S') > .drone_last_run
-        - while read line; do export drone_last_run=$line; done < .drone_last_run
+        - drone_last_run=$(cat .drone_last_run)
         - echo ${drone_last_run}
