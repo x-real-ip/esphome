@@ -53,7 +53,7 @@ steps:
         from_secret: ssh_password
       port: 22
       script:
-        - cd /home/coen/docker-home-services/esphome/
+        - cd /home/coen/docker-home-services/${DRONE_REPO_NAME}/
         - git pull
 
   - name: docker compose up
@@ -65,7 +65,7 @@ steps:
         from_secret: ssh_password
       port: 22
       script:
-        - cd /home/coen/docker-home-services/esphome/
+        - cd /home/coen/docker-home-services/${DRONE_REPO_NAME}/
         - docker-compose up -d
 
   - name: cleanup
@@ -77,5 +77,4 @@ steps:
         from_secret: ssh_password
       port: 22
       script:
-        - cd /home/coen/docker-home-services/esphome/
-        - docker image prune --force
+        - cd /home/coen/docker-home-services/${DRONE_REPO_NAME}/
