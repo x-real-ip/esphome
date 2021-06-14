@@ -5,4 +5,4 @@
 ![GitHub commit activity](https://img.shields.io/github/commit-activity/y/theautomation/esphome?logo=github)
 ![GitHub last commit (branch)](https://img.shields.io/github/last-commit/theautomation/esphome/main?logo=github)
 
-[ESPHome](https://dsmr-reader.readthedocs.io/en/latest/explained/about.html/): A system to control your ESP8266/ESP32 by simple yet powerful configuration files and control them remotely through Home Automation systems.
+[ESPHome](https://dsmr-reader.readthedocs.io/en/latest/explained/about.html/): A system to control ESP8266/ESP32 by simple yet powerful configuration files and control them remotely through Home Automation systems.
