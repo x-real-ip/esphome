@@ -78,7 +78,7 @@ steps:
       port: 22
       script:
         - cd /home/coen/docker-home-services/${DRONE_REPO_NAME}/config/
-        - for file in $(find -maxdepth 1 -type f -name "*.yaml" -not -name "secrets.yaml"); do docker exec prd-esphome-app esphome "$file" run; done
+        - for file in $(find -maxdepth 1 -type f -name "*.yaml" -not -name "secrets.yaml"); do docker exec prd-esphome-app esphome "$file" run --no-logs; done
 
   - name: cleanup
     image: appleboy/drone-ssh
