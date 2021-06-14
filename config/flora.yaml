@@ -1,0 +1,37 @@
+---
+substitutions:
+  device_name: flora
+  device_comment: "A bridge between WiFi and Bluetooth for Xiaomi Mi Flora plant sensors"
+
+esphome:
+  name: ${device_name}
+  comment: ${device_comment}
+  platform: ESP32
+  board: esp-wrover-kit
+
+<<: !include common/wifi.yaml
+<<: !include common/captive_portal.yaml
+<<: !include common/logger.yaml
+<<: !include common/api.yaml
+<<: !include common/ota.yaml
+<<: !include common/web_server.yaml
+<<: !include common/time.yaml
+<<: !include common/uptime_sensor.yaml
+<<: !include common/wifi_sensor.yaml
+<<: !include common/version_sensor.yaml
+<<: !include common/status_sensor.yaml
+<<: !include common/restart_switch.yaml
+
+esp32_ble_tracker:
+
+sensor:
+  - platform: xiaomi_hhccjcy01
+    mac_address: 'C4:7C:8D:6B:16:7C'
+    temperature:
+      name: "${device_name}_01_temperature"
+    moisture:
+      name: "${device_name}_01_moisture"
+    illuminance:
+      name: "${device_name}_01_illuminance"
+    conductivity:
+      name: "${device_name}_01_soil_conductivity"
