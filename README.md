@@ -9,6 +9,7 @@
 
 <p align="left">
 <img src="https://github.com/theautomation/esphome/blob/518ff39a7688c0e985fa9236870272aef7031d4c/pictures/watermeter.jpg" height="250">
+  Watermeter
 <img src="https://github.com/theautomation/esphome/blob/2a289d9f9c122afd6913e88e463eef0e2d4a3db3/pictures/ventilation.jpg" height="250">
 <img src="https://github.com/theautomation/esphome/blob/6912fcaee0e19b439a981cf7a691a764c871f43f/pictures/kitchen_lock.jpg" height="250">
 </p>
