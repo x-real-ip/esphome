@@ -114,3 +114,4 @@ steps:
         from_secret: ssh_password
       script:
         - cd /home/coen/docker-home-services/${DRONE_REPO_NAME}/
+        - docker image prune -f
