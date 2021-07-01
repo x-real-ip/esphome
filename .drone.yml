@@ -37,6 +37,26 @@ steps:
 ---
 kind: pipeline
 type: docker
+name: build
+
+depends_on:
+  - validate
+
+steps:
+  - name: publish
+    image: plugins/docker
+    settings:
+      username:
+        from_secret: docker-registry-username
+      password:
+        from_secret: docker-registry-password
+      registry: docker-registry.theautomation.nl
+      repo: docker-registry.theautomation.nl/coen/prd-${DRONE_REPO_NAME}-app
+      auto_tag: true
+
+---
+kind: pipeline
+type: docker
 name: upgrade
 
 depends_on:
@@ -47,11 +67,12 @@ steps:
   - name: git pull
     image: appleboy/drone-ssh
     settings:
-      host: docker.stam.lan
-      username: coen
+      host:
+        from_secret: ssh_host
+      username:
+        from_secret: ssh_user
       password:
         from_secret: ssh_password
-      port: 22
       script:
         - cd /home/coen/docker-home-services/${DRONE_REPO_NAME}/
         - git pull
@@ -59,11 +80,12 @@ steps:
   - name: docker compose up
     image: appleboy/drone-ssh
     settings:
-      host: docker.stam.lan
-      username: coen
+      host:
+        from_secret: ssh_host
+      username:
+        from_secret: ssh_user
       password:
         from_secret: ssh_password
-      port: 22
       script:
         - cd /home/coen/docker-home-services/${DRONE_REPO_NAME}/
         - docker-compose up -d
@@ -71,11 +93,12 @@ steps:
   - name: compile and upload
     image: appleboy/drone-ssh
     settings:
-      host: docker.stam.lan
-      username: coen
+      host:
+        from_secret: ssh_host
+      username:
+        from_secret: ssh_user
       password:
         from_secret: ssh_password
-      port: 22
       script:
         - cd /home/coen/docker-home-services/${DRONE_REPO_NAME}/config/
         - for file in $(find -maxdepth 1 -type f -name "*.yaml" -not -name "secrets.yaml"); do docker exec prd-esphome-app esphome "$file" run --no-logs; done
@@ -83,10 +106,11 @@ steps:
   - name: cleanup
     image: appleboy/drone-ssh
     settings:
-      host: docker.stam.lan
-      username: coen
+      host:
+        from_secret: ssh_host
+      username:
+        from_secret: ssh_user
       password:
         from_secret: ssh_password
-      port: 22
       script:
         - cd /home/coen/docker-home-services/${DRONE_REPO_NAME}/
