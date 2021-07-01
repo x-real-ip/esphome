@@ -10,4 +10,4 @@
 ![Mechanical ventilation switches](pictures/ventilation.jpg =250x250)
 ![](pictures/ventilation.jpg | width=100)
 
-<img src="https://github.com/theautomation/esphome/tree/main/pictures/ventilation.jpg" width="48">
+<img src="https://github.com/theautomation/esphome/blob/2a289d9f9c122afd6913e88e463eef0e2d4a3db3/pictures/ventilation.jpg" width="48">
