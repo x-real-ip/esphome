@@ -8,3 +8,5 @@
 [ESPHome](https://dsmr-reader.readthedocs.io/en/latest/explained/about.html/): A system to control ESP8266/ESP32 by simple yet powerful configuration files and control them remotely through Home Automation systems.
 
 ![Mechanical ventilation switches](pictures/ventilation.jpg)
+![Mechanical ventilation switches](pictures/ventilation2.jpg)
+![Mechanical ventilation switches](pictures/ventilation3.jpg)
