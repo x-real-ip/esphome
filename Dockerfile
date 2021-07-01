@@ -1,0 +1,1 @@
+FROM esphome/esphome:1.19.4
