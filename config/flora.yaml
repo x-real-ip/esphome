@@ -26,7 +26,7 @@ esp32_ble_tracker:
 
 sensor:
   - platform: xiaomi_hhccjcy01
-    mac_address: 'C4:7C:8D:6B:16:7C'
+    mac_address: "C4:7C:8D:6B:16:7C"
     temperature:
       name: "${device_name}_01_temperature"
     moisture:

@@ -22,14 +22,12 @@ esphome:
 <<: !include common/status_sensor.yaml
 <<: !include common/restart_switch.yaml
 
-
 i2c:
   sda: 21
   scl: 22
   scan: false
 
 sensor:
-
   - platform: bh1750
     name: "${device_name}_illuminance"
     address: 0x23

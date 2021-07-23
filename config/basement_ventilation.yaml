@@ -24,9 +24,9 @@ esphome:
 
 switch:
   #- platform: gpio
-    #name: "${device_name}_sw_01"
-    #pin:
-      #number: 15
+  #name: "${device_name}_sw_01"
+  #pin:
+  #number: 15
   - platform: gpio
     name: "${device_name}_sw_02"
     pin:

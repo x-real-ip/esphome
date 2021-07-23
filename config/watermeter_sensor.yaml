@@ -23,12 +23,11 @@ esphome:
 <<: !include common/restart_switch.yaml
 
 sensor:
-
   - platform: pulse_counter
     pin: 14
     name: ${device_name}_pulse_counter
     update_interval: 1s
     accuracy_decimals: 0
-    unit_of_measurement: 'Liter'
+    unit_of_measurement: "Liter"
     filters:
       - multiply: 0.016666667
