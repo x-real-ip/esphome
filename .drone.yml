@@ -3,11 +3,6 @@ kind: pipeline
 name: validate
 
 steps:
-  - name: prettier
-    image: tmknom/prettier:latest
-    commands:
-      - prettier --check "./config/**/*.yaml"
-
   - name: yamllint
     image: sdesbure/yamllint:latest
     commands:
@@ -120,3 +115,25 @@ steps:
       script:
         - cd /home/coen/docker-home-services/${DRONE_REPO_NAME}/
         - docker image prune -f
+
+---
+kind: pipeline
+name: notify webhook
+
+steps:
+  - name: send
+    image: plugins/webhook
+    settings:
+      username:
+        from_secret: nodered_endpoint_username
+      password:
+        from_secret: nodered_endpoint_password
+      urls: http://docker.stam.lan:1880/drone/notify
+      skip_verify: true
+      content_type: application/json
+      template: |
+        {
+          "owner": "{{ repo.owner }}",
+          "repo": "{{ repo.name }}",
+          "status": "{{ build.status }}",
+        }
