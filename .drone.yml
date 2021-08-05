@@ -120,6 +120,14 @@ steps:
 kind: pipeline
 name: notify webhook
 
+trigger:
+  status:
+    - success
+    - failure
+
+depends_on:
+  - upgrade
+
 steps:
   - name: send
     image: plugins/webhook
@@ -136,4 +144,6 @@ steps:
           "owner": "{{ repo.owner }}",
           "repo": "{{ repo.name }}",
           "status": "{{ build.status }}",
+          "buildnumber": "{{ build.number }}",
+          "buildlink": "{{ build.link }}"
         }
