@@ -9,7 +9,14 @@ esphome:
   platform: ESP32
   board: esp-wrover-kit
 
-<<: !include common/wifi.yaml
+wifi:
+  ssid: !secret wifi_not_ssid
+  password: !secret wifi_not_password
+  domain: !secret wifi_domain
+  ap:
+    ssid: ${device_name}_ap
+    password: !secret wifi_not_password
+
 <<: !include common/captive_portal.yaml
 <<: !include common/logger.yaml
 <<: !include common/api.yaml

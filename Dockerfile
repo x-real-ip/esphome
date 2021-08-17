@@ -1,1 +1,1 @@
-FROM esphome/esphome:1.19.4
+FROM esphome/esphome:latest
