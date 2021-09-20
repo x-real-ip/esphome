@@ -1,7 +1,7 @@
 ---
 substitutions:
   device_name: watermeter_sensor
-  device_comment: "This sensor detects every liter of water used"
+  device_comment: "This sensor detects every liter of used water"
 
 esphome:
   name: ${device_name}
@@ -26,7 +26,7 @@ sensor:
   - platform: pulse_counter
     pin: 14
     name: ${device_name}_pulse_counter
-    update_interval: 1s
+    update_interval: 2s
     accuracy_decimals: 0
     unit_of_measurement: "Liter"
     filters:
