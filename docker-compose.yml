@@ -1,6 +1,5 @@
 ---
 version: '3.8'
-
 services:
   prd-esphome-app:
     image: docker-registry.theautomation.nl/coen/prd-esphome-app:latest
