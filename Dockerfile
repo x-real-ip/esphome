@@ -1,1 +1,1 @@
-FROM esphome/esphome:2021.12
+FROM esphome/esphome:2021.12.2
