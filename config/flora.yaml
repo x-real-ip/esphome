@@ -35,3 +35,14 @@ sensor:
       name: "${device_name}_01_illuminance"
     conductivity:
       name: "${device_name}_01_soil_conductivity"
+
+  - platform: xiaomi_hhccjcy01
+    mac_address: "C4:7C:8D:6D:43:F3"
+    temperature:
+      name: "${device_name}_02_temperature"
+    moisture:
+      name: "${device_name}_02_moisture"
+    illuminance:
+      name: "${device_name}_02_illuminance"
+    conductivity:
+      name: "${device_name}_02_soil_conductivity"
