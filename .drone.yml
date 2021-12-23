@@ -25,7 +25,7 @@ steps:
     pull: always
     commands:
       - mv config/secrets.yaml.example config/secrets.yaml
-      - for file in $(find config -maxdepth 1 -type f -name "*.yaml" -not -name "secrets.yaml"); do esphome "$file" config; done
+      - for file in $(find config -maxdepth 1 -type f -name "*.yaml" -not -name "secrets.yaml"); do esphome config "$file" ; done
 
   - name: beta
     image: esphome/esphome:beta

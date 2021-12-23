@@ -22,8 +22,7 @@ esphome:
 <<: !include common/status_sensor.yaml
 <<: !include common/restart_switch.yaml
 
-# uncomment to search for bluetooth devices
-# esp32_ble_tracker:
+esp32_ble_tracker:
 
 sensor:
   - platform: xiaomi_hhccjcy01
