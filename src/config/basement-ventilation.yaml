@@ -1,0 +1,41 @@
+---
+substitutions:
+  device_name: basement-ventilation
+  device_comment: "ESP32 with 4 relays for basement ventilation"
+
+esphome:
+  name: ${device_name}
+  comment: ${device_comment}
+  platform: ESP32
+  board: esp-wrover-kit
+
+<<: !include common/wifi.yaml
+<<: !include common/captive_portal.yaml
+<<: !include common/logger.yaml
+<<: !include common/api.yaml
+<<: !include common/ota.yaml
+<<: !include common/web_server.yaml
+<<: !include common/time.yaml
+<<: !include common/uptime_sensor.yaml
+<<: !include common/wifi_sensor.yaml
+<<: !include common/version_sensor.yaml
+<<: !include common/status_sensor.yaml
+<<: !include common/restart_switch.yaml
+
+switch:
+  #- platform: gpio
+  #name: "${device_name}_sw_01"
+  #pin:
+  #number: 15
+  - platform: gpio
+    name: "${device_name}_sw_02"
+    pin:
+      number: 5
+  - platform: gpio
+    name: "${device_name}_sw_03"
+    pin:
+      number: 19
+  - platform: gpio
+    name: "${device_name}_sw_04"
+    pin:
+      number: 23

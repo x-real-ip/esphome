@@ -1,0 +1,47 @@
+---
+substitutions:
+  device_name: weather-station
+  device_comment: "This ESP detects illuminance, temperature, pressure and relative humidity"
+
+esphome:
+  name: ${device_name}
+  comment: ${device_comment}
+  platform: ESP32
+  board: nodemcu-32s
+
+<<: !include common/wifi.yaml
+<<: !include common/captive_portal.yaml
+<<: !include common/logger.yaml
+<<: !include common/api.yaml
+<<: !include common/ota.yaml
+<<: !include common/web_server.yaml
+<<: !include common/time.yaml
+<<: !include common/uptime_sensor.yaml
+<<: !include common/wifi_sensor.yaml
+<<: !include common/version_sensor.yaml
+<<: !include common/status_sensor.yaml
+<<: !include common/restart_switch.yaml
+
+i2c:
+  sda: 21
+  scl: 22
+  scan: false
+
+sensor:
+  - platform: bh1750
+    name: "${device_name}_illuminance"
+    address: 0x23
+    update_interval: 2s
+
+  - platform: bme280
+    temperature:
+      name: "${device_name}_temperature"
+      id: bme280_temperature
+    pressure:
+      name: "${device_name}_pressure"
+      id: bme280_pressure
+    humidity:
+      name: "${device_name}_relative_humidity"
+      id: bme280_humidity
+    address: 0x76
+    update_interval: 60s

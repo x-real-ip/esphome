@@ -1,0 +1,33 @@
+---
+substitutions:
+  device_name: watermeter-sensor
+  device_comment: "This sensor detects every liter of used water"
+
+esphome:
+  name: ${device_name}
+  comment: ${device_comment}
+  platform: ESP32
+  board: esp-wrover-kit
+
+<<: !include common/wifi.yaml
+<<: !include common/captive_portal.yaml
+<<: !include common/logger.yaml
+<<: !include common/api.yaml
+<<: !include common/ota.yaml
+<<: !include common/web_server.yaml
+<<: !include common/time.yaml
+<<: !include common/uptime_sensor.yaml
+<<: !include common/wifi_sensor.yaml
+<<: !include common/version_sensor.yaml
+<<: !include common/status_sensor.yaml
+<<: !include common/restart_switch.yaml
+
+sensor:
+  - platform: pulse_counter
+    pin: 14
+    name: ${device_name}_pulse_counter
+    update_interval: 2s
+    accuracy_decimals: 0
+    unit_of_measurement: "Liter"
+    filters:
+      - multiply: 0.016666667
