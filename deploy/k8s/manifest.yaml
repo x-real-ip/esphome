@@ -107,6 +107,8 @@ spec:
       # securityContext:
       #   runAsUser: 1000
       #   fsGroup: 1000
+      imagePullSecrets:
+        - name: container-image-registry-credentials
 
 ---
 kind: Service
