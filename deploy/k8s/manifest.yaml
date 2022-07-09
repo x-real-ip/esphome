@@ -1,0 +1,146 @@
+---
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: pv-nfs-esphome-config
+spec:
+  storageClassName: "freenas-nfs-manual-csi"
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  mountOptions:
+    - nfsvers=4
+    - nolock
+    - noatime
+  csi:
+    driver: org.democratic-csi.node-manual
+    readOnly: false
+    fsType: nfs
+    volumeHandle: pv-nfs-esphome-config
+    volumeAttributes:
+      server: storage-server.lan
+      share: /mnt/r10_8tb/k8s/esphome-config
+      node_attach_driver: nfs
+      provisioner_driver: node-manual
+
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: pvc-nfs-esphome-config
+  namespace: home-automation
+  annotations:
+    volume.beta.kubernetes.io/storage-class: "freenas-nfs-manual-csi"
+spec:
+  storageClassName: freenas-nfs-manual-csi
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Gi
+  volumeName: pv-nfs-esphome-config
+
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: esphome
+  namespace: home-automation
+  labels:
+    app: esphome
+spec:
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      app: esphome
+  template:
+    metadata:
+      labels:
+        app: esphome
+    spec:
+      serviceAccountName: default
+      automountServiceAccountToken: true
+      dnsPolicy: ClusterFirst
+      enableServiceLinks: true
+      containers:
+        - name: esphome
+          image: "esphome/esphome:1.18.0"
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 6052
+              protocol: TCP
+          livenessProbe:
+            tcpSocket:
+              port: 6052
+            initialDelaySeconds: 0
+            failureThreshold: 3
+            timeoutSeconds: 1
+            periodSeconds: 10
+          readinessProbe:
+            tcpSocket:
+              port: 6052
+            initialDelaySeconds: 0
+            failureThreshold: 3
+            timeoutSeconds: 1
+            periodSeconds: 10
+          startupProbe:
+            tcpSocket:
+              port: 6052
+            initialDelaySeconds: 0
+            failureThreshold: 30
+            timeoutSeconds: 1
+            periodSeconds: 5
+          volumeMounts:
+            - name: config
+              mountPath: /config
+      volumes:
+        - name: config
+          persistentVolumeClaim:
+            claimName: pvc-nfs-esphome-config
+
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: esphome
+  namespace: home-automation
+  labels:
+    app: esphome
+  annotations:
+spec:
+  selector:
+    app: esphome
+  type: ClusterIP
+  ports:
+  - name: http
+    protocol: TCP
+    port: 6052
+    targetPort: 6052
+
+---
+kind: Ingress
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: esphome
+  namespace: home-automation
+  labels:
+    app: esphome
+  annotations:
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "false"
+spec:
+  ingressClassName: nginx-private
+  rules:
+    - host: esphome.k8s.lan
+      http:
+        paths:
+          - path: "/"
+            pathType: Prefix
+            backend:
+              service:
+                name: esphome
+                port:
+                  number: 6052
