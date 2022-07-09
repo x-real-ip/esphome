@@ -68,7 +68,7 @@ spec:
       enableServiceLinks: true
       containers:
         - name: esphome
-          image: "container-image-registry.theautomation.nl/home-automation/esphome:latest@digest"
+          image: "container-image-registry.theautomation.nl/home-automation/esphome:latest@sha256:117479f1787335055306754f0336d30748fef50cf39fc49ff3bb8ebacb01f705"
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 6052
