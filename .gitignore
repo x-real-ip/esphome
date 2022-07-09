@@ -1,5 +1,1 @@
-prd-esphome-app.env
-/config/secrets.yaml
-/config/.esphome/
-/config/*/.pioenvs
-/config/*/src
+/src/config/secrets.yaml

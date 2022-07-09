@@ -1,46 +1,46 @@
----
-kind: PersistentVolume
-apiVersion: v1
-metadata:
-  name: pv-nfs-esphome-config
-spec:
-  storageClassName: "freenas-nfs-manual-csi"
-  capacity:
-    storage: 1Gi
-  accessModes:
-    - ReadWriteMany
-  persistentVolumeReclaimPolicy: Retain
-  mountOptions:
-    - nfsvers=4
-    - nolock
-    - noatime
-  csi:
-    driver: org.democratic-csi.node-manual
-    readOnly: false
-    fsType: nfs
-    volumeHandle: pv-nfs-esphome-config
-    volumeAttributes:
-      server: storage-server.lan
-      share: /mnt/r10_8tb/k8s/esphome-config
-      node_attach_driver: nfs
-      provisioner_driver: node-manual
+# ---
+# kind: PersistentVolume
+# apiVersion: v1
+# metadata:
+#   name: pv-nfs-esphome-config
+# spec:
+#   storageClassName: "freenas-nfs-manual-csi"
+#   capacity:
+#     storage: 1Gi
+#   accessModes:
+#     - ReadWriteMany
+#   persistentVolumeReclaimPolicy: Retain
+#   mountOptions:
+#     - nfsvers=4
+#     - nolock
+#     - noatime
+#   csi:
+#     driver: org.democratic-csi.node-manual
+#     readOnly: false
+#     fsType: nfs
+#     volumeHandle: pv-nfs-esphome-config
+#     volumeAttributes:
+#       server: storage-server.lan
+#       share: /mnt/r10_8tb/k8s/esphome-config
+#       node_attach_driver: nfs
+#       provisioner_driver: node-manual
 
----
-kind: PersistentVolumeClaim
-apiVersion: v1
-metadata:
-  name: pvc-nfs-esphome-config
-  namespace: home-automation
-  annotations:
-    volume.beta.kubernetes.io/storage-class: "freenas-nfs-manual-csi"
-spec:
-  storageClassName: freenas-nfs-manual-csi
-  accessModes:
-    - ReadWriteMany
-  resources:
-    requests:
-      storage: 1Gi
-  volumeName: pv-nfs-esphome-config
+# ---
+# kind: PersistentVolumeClaim
+# apiVersion: v1
+# metadata:
+#   name: pvc-nfs-esphome-config
+#   namespace: home-automation
+#   annotations:
+#     volume.beta.kubernetes.io/storage-class: "freenas-nfs-manual-csi"
+# spec:
+#   storageClassName: freenas-nfs-manual-csi
+#   accessModes:
+#     - ReadWriteMany
+#   resources:
+#     requests:
+#       storage: 1Gi
+#   volumeName: pv-nfs-esphome-config
 
 ---
 kind: Deployment
@@ -68,11 +68,14 @@ spec:
       enableServiceLinks: true
       containers:
         - name: esphome
-          image: "esphome/esphome:1.18.0"
+          image: "esphome/esphome:2022.6.0"
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 6052
               protocol: TCP
+          env:
+            - name: "ESPHOME_DASHBOARD_USE_PING"
+              value: "true"
           livenessProbe:
             tcpSocket:
               port: 6052
@@ -94,13 +97,16 @@ spec:
             failureThreshold: 30
             timeoutSeconds: 1
             periodSeconds: 5
-          volumeMounts:
-            - name: config
-              mountPath: /config
-      volumes:
-        - name: config
-          persistentVolumeClaim:
-            claimName: pvc-nfs-esphome-config
+      #     volumeMounts:
+      #       - name: config
+      #         mountPath: /config
+      # volumes:
+      #   - name: config
+      #     persistentVolumeClaim:
+      #       claimName: pvc-nfs-esphome-config
+      # securityContext:
+      #   runAsUser: 1000
+      #   fsGroup: 1000
 
 ---
 kind: Service
@@ -116,10 +122,10 @@ spec:
     app: esphome
   type: ClusterIP
   ports:
-  - name: http
-    protocol: TCP
-    port: 6052
-    targetPort: 6052
+    - name: http
+      protocol: TCP
+      port: 6052
+      targetPort: 6052
 
 ---
 kind: Ingress
