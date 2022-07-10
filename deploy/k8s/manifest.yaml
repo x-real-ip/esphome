@@ -1,6 +1,22 @@
 kind: SealedSecret
 apiVersion: bitnami.com/v1alpha1
 metadata:
+  name: esphome-login
+  namespace: home-automation
+spec:
+  encryptedData:
+    password: AgDXQ+WxgA2Vbf01aVFQw0gk7IFo+fwKwc07ndZvY+iFsIy3z/IfU8Cjfsf3S9UuOGHUdF38qyxWKq/b7dbpFqpWDc9FbzEQmEq/BZ9JSxTZ9KOQGRaUqTKVuQZcR1ujb3H694CZ21Zl+wh+aXkShUQbrkleF2M2hEEKgLXOPAWPPPJ9K7Fph/cIGef89eGodMhR/LUe2KpgWCqKh2yTQc/MSrAqRZuf3/0gYC1YxZvA5keC6H1JBH9ORn2wLRj5RdXrsq1qtv5yXEjX/kioYL3HH5NwSytOHBuOxdPZ1hpO+Tn10GTc39LZ9VX4ZNxN+qouII8AmqXLP1WbE33cpaT/skAJMzTrCE10BCThQr6ieJOcoGjSixNSP5KD9m++MOVaosyBnBUqXAa59oDf9tBED7rowSBdxM8t5cD8CG3B6t5jJaZpDtThUvSrSnHOEx/Wy5PfkNHiySmbFWUtl1DpkrhTzY8iwgas7/Hp7YQN+WZEuVolBobGq82+o8a+takrGrwlvFxhcLOtYA4ol5xcjfj4DbYmAHI3dnzbWv1TbmXMwbFS7wOF6jTvintNLx1AEWww9XOShGqctGf75OFlIopH850JBn+1L4N4Kdo4qjxPmK03pXV4Knu1MwxEDjTU8BtbWR5xUyU/4kffXar6gGaTWfuAwuxh/paP4xMg1kYkjpOW+ZHGDi6TdVB0oy6/G/5n2SjbO0QelVXhbQA0d84f
+    username: AgBITOp3KPYyz0eXELGrEbppiLQjufCJrTFapttkfLKzXQ1GWGOdSGtOhraO/ttdo/by4TYuId4qZpgoYV7oCdQ1b4UWIL8tmrKAbXVXXq02P+hw7LnwiF0771lB3ttum5aruRMzSSlVqbee3CIg7jCyxMT8PN9rhE+zYpFxHgScky7S+H6WrjIG1Q0RT9Do0f1xyulqZIvvI4uTilu5At3/18KuJqUmyYZwkJYv/7x79xSwget5ovw2A1UUd7aVDd3Z3kUc3eeKJsR0tea6dT1U7N3zog3XQ/tgG8aME9/rry5fiJ+ozdDLQvkvYOdM1kKyg1Dh0becaVMsfvOGP/WgyLIh77jt5nEExiCLLca7ibc8UqAeLGH1bKvlzQg2qIEFuuME9F8WDFsjDhaTPvgfbwjQhmA84v4Q/EMDFC/0hQ5JwUo4wDFE12GOXL8jlU4EL1JMs1MdkD61WGXsgi5te3Ws5hgH0jW7ucCpAzdzOLUlCJuMLMN9GWPXZFixT97edPawIBic4uYteEh+7yJ/G5Vq9SF48jRayy6CWgT0bhR1Gfv/+nvcS929c9JJj/0Ef+wiglA++gYSiVeT6hyfABZgUE7qnd5q+mFZCH1Ds8s8txcS6zkNDgITbsuGJir8IogZ+sVu9Xol7rIaJ+59LzpK1N8EszDGDd5U/PD4VMZwfWg+RTNsRw9NPxxHH8h46ytI
+  template:
+    type: Opaque
+    metadata:
+      name: esphome-login
+      namespace: home-automation
+
+---
+kind: SealedSecret
+apiVersion: bitnami.com/v1alpha1
+metadata:
   name: esphome-secrets
   namespace: home-automation
 spec:
@@ -56,6 +72,18 @@ spec:
           env:
             - name: "ESPHOME_DASHBOARD_USE_PING"
               value: "true"
+            - name: "TZ"
+              value: "Europe/Amsterdam"
+            - name: "USERNAME"
+              valueFrom:
+                secretKeyRef:
+                  name: esphome-login
+                  key: username
+            - name: "PASSWORD"
+              valueFrom:
+                secretKeyRef:
+                  name: esphome-login
+                  key: password
           livenessProbe:
             tcpSocket:
               port: 6052
