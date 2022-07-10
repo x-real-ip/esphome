@@ -20,7 +20,7 @@ spec:
       name: secrets
       namespace: home-automation
       labels:
-        app: esphome
+        app.kubernetes.io/name: esphome
 
 ---
 kind: Deployment
