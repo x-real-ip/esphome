@@ -1,7 +1,7 @@
 kind: SealedSecret
 apiVersion: bitnami.com/v1alpha1
 metadata:
-  name: secrets
+  name: esphome-secrets
   namespace: home-automation
 spec:
   encryptedData:
