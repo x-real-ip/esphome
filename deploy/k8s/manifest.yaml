@@ -84,7 +84,7 @@ spec:
       volumes:
         - name: secrets
           secret:
-            secretName: secrets
+            secretName: esphome-secrets
       imagePullSecrets:
         - name: container-image-registry-credentials
 
