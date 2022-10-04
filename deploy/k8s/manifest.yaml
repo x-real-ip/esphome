@@ -1,3 +1,4 @@
+---
 kind: SealedSecret
 apiVersion: bitnami.com/v1alpha1
 metadata:
@@ -64,7 +65,7 @@ spec:
       enableServiceLinks: true
       containers:
         - name: esphome
-          image: "container-image-registry.theautomation.nl/home-automation/esphome:latest@sha256:102a0af0a299bcf527dea24ef8422f991b47d474143db256fceb035173fb8051"
+          image: esphome/esphome:latest
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 6052
@@ -124,7 +125,6 @@ metadata:
   namespace: home-automation
   labels:
     app: esphome
-  annotations:
 spec:
   selector:
     app: esphome
