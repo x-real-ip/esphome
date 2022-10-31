@@ -63,7 +63,7 @@ spec:
       enableServiceLinks: true
       containers:
         - name: esphome
-          image: harbor.k8s.lan/k8s/esphome:8
+          image: harbor.k8s.lan/k8s/esphome:9
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 6052
