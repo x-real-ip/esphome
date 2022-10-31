@@ -1,13 +1,13 @@
 ---
 kind: pipeline
-type: kubernetes
+type: docker
 name: validate
 
 steps:
-  # - name: prettier
-  #   image: tmknom/prettier:latest
-  #   commands:
-  #     - prettier --config "./cicd/.prettierrc.yaml" --ignore-path "./cicd/.prettierignore.yaml" --check "./src/config/**/*.yaml"
+  - name: prettier
+    image: tmknom/prettier:latest
+    commands:
+      - prettier --config "./cicd/.prettierrc.yaml" --ignore-path "./cicd/.prettierignore" --check "./src/config/**/*.yaml"
 
   - name: yamllint
     image: sdesbure/yamllint:latest
@@ -16,32 +16,32 @@ steps:
 
 ---
 kind: pipeline
-type: kubernetes
-name: publish
+type: docker
+name: build
 
 depends_on:
   - validate
 
 steps:
-  - name: main build and push image
+  - name: build and push image
     image: quay.io/buildah/stable
     privileged: true
+    network_mode: host
     environment:
-      REGISTRY_HOST: "harbor.k8s.lan/library"
-      CONTAINERFILE: "./deploy/container/main/Containerfile"
+      REGISTRY_HOST: "harbor.k8s.lan/k8s"
+      CONTAINERFILE: "./deploy/container/Containerfile"
       STORAGE_DRIVER: "overlay"
-      FORMAT: "oci"
+      FORMAT: "docker"
       CONTEXT: "."
       TLSVERIFY: "false"
-      USERNAME: "robot$library+drone"
+      USERNAME: "robot-drone-ci"
       PASSWORD:
-        from_secret: harbor_registry_password
+        from_secret: harbor_registry_drone_password
     commands:
       - |
         echo "Build image..."
         buildah --storage-driver=$${STORAGE_DRIVER} bud --format=$${FORMAT} \
-        --tls-verify=$${TLSVERIFY} --no-cache \
-        -f $${CONTAINERFILE} \
+        --tls-verify=$${TLSVERIFY} -f $${CONTAINERFILE} \
         -t $${REGISTRY_HOST}/$${DRONE_REPO_NAME}:latest \
         -t $${REGISTRY_HOST}/$${DRONE_REPO_NAME}:$${DRONE_BUILD_NUMBER} \
         --layers=true $${CONTEXT}
@@ -59,16 +59,29 @@ steps:
         $${REGISTRY_HOST}/$${DRONE_REPO_NAME}:$${DRONE_BUILD_NUMBER} \
         docker://$${REGISTRY_HOST}/$${DRONE_REPO_NAME}:$${DRONE_BUILD_NUMBER}
 
-  - name: main update kubernetes manifest
+---
+kind: pipeline
+type: docker
+name: upgrade
+
+depends_on:
+  - build
+
+steps:
+  - name: upgrade kubernetes manifest
     image: alpine:latest
+    network_mode: host
     environment:
-      PUBLIC_REGISTRY_HOST: "harbor.k8s.lan/library"
+      PUBLIC_REGISTRY_HOST: "harbor.k8s.lan/k8s"
       YQ_VERSION: "v4.27.5"
     commands:
       - |
         wget https://github.com/mikefarah/yq/releases/download/$${YQ_VERSION}/yq_linux_amd64 \
         -O /usr/bin/yq \
         && chmod +x /usr/bin/yq
+      - |
+        application="init-01-$${DRONE_REPO_NAME}" image="$${PUBLIC_REGISTRY_HOST}/init-01-$${DRONE_REPO_NAME}:$${DRONE_BUILD_NUMBER}" \
+        yq -i '(.spec | select(.template.spec.initContainers[]).template.spec.initContainers[] | select(.name == strenv(application)).image) |= strenv(image)' ./deploy/k8s/manifest.yaml
       - |
         application="$${DRONE_REPO_NAME}" image="$${PUBLIC_REGISTRY_HOST}/$${DRONE_REPO_NAME}:$${DRONE_BUILD_NUMBER}" \
         yq -i '(.spec | select(.template.spec.containers[]).template.spec.containers[] | select(.name == strenv(application)).image) |= strenv(image)' ./deploy/k8s/manifest.yaml
@@ -88,10 +101,10 @@ steps:
 
 ---
 kind: secret
-name: harbor_registry_password
+name: harbor_registry_drone_password
 get:
   path: harbor-registry-drone-password
-  name: DRONE_PASSWORD
+  name: harbor-robot-password
 
 ---
 kind: secret

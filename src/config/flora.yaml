@@ -1,7 +1,8 @@
 ---
 substitutions:
   device_name: flora
-  device_comment: "A bridge between WiFi and Bluetooth for Xiaomi Mi Flora plant sensors"
+  device_comment:
+    "A bridge between WiFi and Bluetooth for Xiaomi Mi Flora plant sensors"
 
 esphome:
   name: ${device_name}
