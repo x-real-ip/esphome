@@ -13,7 +13,6 @@ spec:
     metadata:
       name: esphome-login
       namespace: home-automation
-
 ---
 kind: SealedSecret
 apiVersion: bitnami.com/v1alpha1
@@ -38,7 +37,6 @@ spec:
       namespace: home-automation
       labels:
         app.kubernetes.io/name: esphome
-
 ---
 kind: Deployment
 apiVersion: apps/v1
@@ -65,7 +63,7 @@ spec:
       enableServiceLinks: true
       containers:
         - name: esphome
-          image: harbor.k8s.lan/k8s/esphome:5
+          image: harbor.k8s.lan/k8s/esphome:8
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 6052
@@ -116,7 +114,6 @@ spec:
             secretName: esphome-secrets
       imagePullSecrets:
         - name: container-image-registry-credentials
-
 ---
 kind: Service
 apiVersion: v1
@@ -134,7 +131,6 @@ spec:
       protocol: TCP
       port: 6052
       targetPort: 6052
-
 ---
 kind: Ingress
 apiVersion: networking.k8s.io/v1
