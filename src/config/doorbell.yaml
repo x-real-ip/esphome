@@ -1,8 +1,7 @@
 ---
 substitutions:
   device_name: doorbell
-  device_comment:
-    "ESP-01S to turn on/off a analog doorbell chime or simulate buttonpress"
+  device_comment: "ESP-01S to turn on/off a analog doorbell chime or simulate buttonpress"
 
 esphome:
   name: ${device_name}
