@@ -1,0 +1,91 @@
+---
+substitutions:
+  device_name: watermeter
+  device_comment: "This sensor detects every liter of used water"
+
+esphome:
+  name: ${device_name}
+  comment: ${device_comment}
+
+esp8266:
+  board: nodemcu
+
+<<: !include common/wifi.yaml
+<<: !include common/captive_portal.yaml
+<<: !include common/logger.yaml
+<<: !include common/api.yaml
+<<: !include common/ota.yaml
+<<: !include common/web_server.yaml
+<<: !include common/time.yaml
+<<: !include common/uptime_sensor.yaml
+<<: !include common/wifi_sensor.yaml
+<<: !include common/version_sensor.yaml
+<<: !include common/status_sensor.yaml
+<<: !include common/restart_switch.yaml
+
+globals:
+  - id: initial_water_usage
+    type: float
+    restore_value: yes
+    initial_value: "0"
+  - id: total_water_pulses
+    type: int
+    restore_value: yes
+
+api:
+  services:
+    - service: meter_value_water
+      variables:
+        meter_value: float
+      then:
+        - globals.set:
+            id: initial_water_usage
+            value: !lambda "return ( meter_value ) ;"
+
+binary_sensor:
+  - platform: gpio
+    id: internal_pulse_counter
+    name: ${device_name}_pulse_counter
+    pin:
+      number: D1
+      mode:
+        input: true
+    on_press:
+      - then:
+          lambda: id(total_water_pulses) += 1;
+
+sensor:
+  - platform: pulse_counter
+    pin: D1
+    id: ${device_name}_pulse
+    name: "${device_name}_pulse"
+    update_interval: 10s
+    state_class: measurement
+    unit_of_measurement: "l/min"
+    accuracy_decimals: 1
+    icon: "mdi:water-pump"
+
+    total:
+      id: sensor_pulse_meter_total
+      name: "${device_name}_total_since_start"
+      unit_of_measurement: "m³"
+      state_class: total_increasing
+      device_class: water
+      accuracy_decimals: 3
+      filters:
+        - multiply: 0.001
+
+  - platform: template
+    id: ${device_name}_total
+    name: "${device_name}_value"
+    state_class: "total_increasing"
+    icon: mdi:water
+    unit_of_measurement: m3
+    accuracy_decimals: 3
+    lambda: return id(initial_water_usage) + (id(total_water_pulses) * 0.001);
+
+  - platform: template
+    id: ${device_name}_pulses
+    name: "${device_name}_pulse_total"
+    state_class: "total_increasing"
+    lambda: return id(total_water_pulses);
