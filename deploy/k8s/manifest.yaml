@@ -67,6 +67,7 @@ spec:
         - name: esphome
           image: "harbor.k8s.lan/k8s/esphome:21"
           imagePullPolicy: IfNotPresent
+          resources: {}
           ports:
             - containerPort: 6052
               protocol: TCP
