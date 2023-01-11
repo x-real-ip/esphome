@@ -24,6 +24,7 @@ steps:
     image: esphome/esphome:latest
     commands:
       - mv ./src/config/secrets.yaml.example ./src/config/secrets.yaml
+      - cd ./src/config/
       - for file in $(find config -maxdepth 1 -type f -name "*.yaml" -not -name "secrets.yaml"); do esphome config "$file" ; done
 
 ---
