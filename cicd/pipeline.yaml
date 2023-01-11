@@ -17,10 +17,23 @@ steps:
 ---
 kind: pipeline
 type: docker
+name: test
+
+steps:
+  - name: latest
+    image: esphome/esphome:latest
+    commands:
+      - mv config/secrets.yaml.example config/secrets.yaml
+      - for file in $(find config -maxdepth 1 -type f -name "*.yaml" -not -name "secrets.yaml"); do esphome config "$file" ; done
+
+---
+kind: pipeline
+type: docker
 name: build
 
 depends_on:
   - validate
+  - test
 
 steps:
   - name: build and push image
