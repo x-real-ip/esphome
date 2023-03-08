@@ -26,7 +26,6 @@ steps:
       - mv ./src/config/secrets.yaml.example ./src/config/secrets.yaml
       - cd ./src/
       - for file in $(find config -maxdepth 1 -type f -name "*.yaml" -not -name "secrets.yaml"); do esphome config "$file" ; done
-      - for file in $(find config -maxdepth 1 -type f -name "*.yaml" -not -name "secrets.yaml"); do esphome run "$file" --no-logs; done
 
 ---
 kind: pipeline
