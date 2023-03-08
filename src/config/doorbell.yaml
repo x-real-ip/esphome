@@ -44,7 +44,6 @@ switch:
 
   # Switch to turn on/off chime when
   # doorbell button is pushed.
-  #
   # It creates a "virtual" switch based
   # on a global variable.
   - platform: template
