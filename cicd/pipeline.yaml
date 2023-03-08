@@ -68,13 +68,6 @@ steps:
         $${REGISTRY_HOST}/$${DRONE_REPO_NAME}:$${DRONE_BUILD_NUMBER} \
         docker://$${REGISTRY_HOST}/$${DRONE_REPO_NAME}:$${DRONE_BUILD_NUMBER}
 
-  - name: Compile and OTA update ESP microcontrollers
-    image: esphome/esphome:latest
-    commands:
-      - mv ./src/config/secrets.yaml.example ./src/config/secrets.yaml
-      - cd ./src/
-      - for file in $(find config -maxdepth 1 -type f -name "*.yaml" -not -name "secrets.yaml"); do esphome run "$file" --no-logs; done
-
 ---
 kind: pipeline
 type: docker
@@ -84,17 +77,17 @@ depends_on:
   - build
 
 steps:
-  - name: upgrade k8s manifest
+  - name: Upgrade k8s manifest
     image: alpine:3
     network_mode: host
     environment:
       REGISTRY_NAME: "k8s"
     commands:
       - sed -i -e
-        "s%/$${REGISTRY_NAME}/$${DRONE_REPO_NAME}:.*%/$${REGISTRY_NAME}/$${DRONE_REPO_NAME}:$${DRONE_BUILD_NUMBER}\"%1"
+        "s%/$${REGISTRY_NAME}/$${DRONE_REPO_NAME}:.*%/$${REGISTRY_NAME}/$${DRONE_REPO_NAME}:$${DRONE_BUILD_NUMBER}\"%g"
         ./deploy/k8s/manifest.yaml
 
-  - name: push k8s manifest
+  - name: Push k8s manifest
     image: appleboy/drone-git-push:1-linux-amd64
     settings:
       remote_name: "git@github.com:${DRONE_REPO}"
@@ -106,7 +99,7 @@ steps:
       ssh_key:
         from_secret: github_ssh_key
 
-  - name: apply k8s manifest
+  - name: Apply k8s manifest
     image: bitnami/kubectl
     volumes:
       - name: kubeconfig
@@ -135,7 +128,7 @@ trigger:
     - failure
 
 steps:
-  - name: slack
+  - name: Slack
     image: plugins/slack
     settings:
       webhook:

@@ -63,11 +63,21 @@ spec:
       automountServiceAccountToken: true
       dnsPolicy: ClusterFirst
       enableServiceLinks: true
+      initContainers:
+        - name: esphome-compile-and-update
+          image: "harbor.k8s.lan/k8s/esphome:46"
+          command:
+            - "bash"
+            - "-c"
+            - for file in $(find /config -maxdepth 1 -type f -name "*.yaml" -not -name "secrets.yaml"); do esphome run "$file"; done
+          volumeMounts:
+            - name: secrets
+              mountPath: /config/secrets.yaml
+              subPath: secrets.yaml
       containers:
         - name: esphome
           image: "harbor.k8s.lan/k8s/esphome:46"
           imagePullPolicy: IfNotPresent
-          resources: {}
           ports:
             - containerPort: 6052
               protocol: TCP
@@ -111,6 +121,7 @@ spec:
             - name: secrets
               mountPath: /config/secrets.yaml
               subPath: secrets.yaml
+          resources: {}
       volumes:
         - name: secrets
           secret:
