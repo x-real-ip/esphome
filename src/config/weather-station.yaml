@@ -1,7 +1,8 @@
 ---
 substitutions:
   device_name: weather-station
-  device_comment: "This ESP detects illuminance, temperature, pressure and relative humidity"
+  device_comment:
+    "This ESP detects illuminance, temperature, pressure and relative humidity"
 
 esphome:
   name: ${device_name}
@@ -9,7 +10,7 @@ esphome:
   platform: ESP32
   board: nodemcu-32s
 
-<<: !include { file: common/api.yaml, vars: { reboot_timeout: "15min" } }
+<<: !include {file: common/api.yaml, vars: {reboot_timeout: "15min"}}
 <<: !include common/wifi.yaml
 <<: !include common/captive_portal.yaml
 <<: !include common/logger.yaml
