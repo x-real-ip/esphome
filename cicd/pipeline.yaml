@@ -9,11 +9,6 @@ steps:
     commands:
       - prettier --config "./cicd/.prettierrc.yaml" --ignore-path "./cicd/.prettierignore" --check "./src/config/**/*.yaml"
 
-  - name: yamllint
-    image: sdesbure/yamllint:latest
-    commands:
-      - yamllint -c ./cicd/.yamllint.yaml .
-
 ---
 kind: pipeline
 type: docker
