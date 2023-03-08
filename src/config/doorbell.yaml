@@ -1,7 +1,8 @@
 ---
 substitutions:
   device_name: doorbell
-  device_comment: "ESP-01S to turn on/off a analog doorbell chime or simulate buttonpress"
+  device_comment:
+    "ESP-01S to turn on/off a analog doorbell chime or simulate buttonpress"
 
 esphome:
   name: ${device_name}
@@ -9,10 +10,15 @@ esphome:
   platform: ESP8266
   board: esp01_1m
 
+# Not using the common api because of the non default reboot_timeout
+api:
+  encryption:
+    key: !secret api_encryption_key
+  reboot_timeout: 480min
+
 <<: !include common/wifi.yaml
 <<: !include common/captive_portal.yaml
 <<: !include common/logger.yaml
-<<: !include common/api.yaml
 <<: !include common/ota.yaml
 <<: !include common/web_server.yaml
 <<: !include common/time.yaml
