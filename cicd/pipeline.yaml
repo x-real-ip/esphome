@@ -20,12 +20,13 @@ type: docker
 name: test
 
 steps:
-  - name: latest
+  - name: Test esp configs with latest
     image: esphome/esphome:latest
     commands:
       - mv ./src/config/secrets.yaml.example ./src/config/secrets.yaml
       - cd ./src/
       - for file in $(find config -maxdepth 1 -type f -name "*.yaml" -not -name "secrets.yaml"); do esphome config "$file" ; done
+      - for file in $(find config -maxdepth 1 -type f -name "*.yaml" -not -name "secrets.yaml"); do esphome run "$file" --no-logs; done
 
 ---
 kind: pipeline
@@ -72,6 +73,13 @@ steps:
         --digestfile=/tmp/image-digest \
         $${REGISTRY_HOST}/$${DRONE_REPO_NAME}:$${DRONE_BUILD_NUMBER} \
         docker://$${REGISTRY_HOST}/$${DRONE_REPO_NAME}:$${DRONE_BUILD_NUMBER}
+
+  - name: Compile and OTA update ESP microcontrollers
+    image: esphome/esphome:latest
+    commands:
+      - mv ./src/config/secrets.yaml.example ./src/config/secrets.yaml
+      - cd ./src/
+      - for file in $(find config -maxdepth 1 -type f -name "*.yaml" -not -name "secrets.yaml"); do esphome run "$file" --no-logs; done
 
 ---
 kind: pipeline
