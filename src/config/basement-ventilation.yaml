@@ -9,10 +9,10 @@ esphome:
   platform: ESP32
   board: esp-wrover-kit
 
+<<: !include { file: common/api.yaml, vars: { reboot_timeout: "15min" } }
 <<: !include common/wifi.yaml
 <<: !include common/captive_portal.yaml
 <<: !include common/logger.yaml
-<<: !include common/api.yaml
 <<: !include common/ota.yaml
 <<: !include common/web_server.yaml
 <<: !include common/time.yaml

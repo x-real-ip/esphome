@@ -2,3 +2,4 @@
 api:
   encryption:
     key: !secret api_encryption_key
+  reboot_timeout: ${reboot_timeout}
