@@ -1,8 +1,7 @@
 ---
 substitutions:
   device_name: basement-wall-temperature
-  device_comment:
-    "ESP with dallas temperature sensor to measure the coldest place of the wall"
+  device_comment: "ESP with dallas temperature sensor to measure the coldest place of the wall"
 
 esphome:
   name: ${device_name}
