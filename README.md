@@ -13,4 +13,5 @@ Application running in Kubernetes <img src="https://github.com/theautomation/kub
 <img src="https://github.com/theautomation/esphome/blob/main/assets/img/kitchen_lock.jpg?raw=true" height="250">
 <img src="https://github.com/theautomation/esphome/blob/main/assets/img/watermeter.jpg?raw=true" height="250">
 <img src="https://github.com/theautomation/esphome/blob/main/assets/img/ventilation.jpg?raw=true" height="250">
+<img src="https://github.com/theautomation/esphome/blob/main/assets/img/basement-wall-temperature.jpg?raw=true" height="250">
 </p>
