@@ -1,0 +1,35 @@
+---
+substitutions:
+  device_name: basement-wall-temperature
+  device_comment:
+    "ESP with dallas temperature sensor to measure the coldest place of the wall"
+
+esphome:
+  name: ${device_name}
+  comment: ${device_comment}
+
+esp32:
+  board: esp32dev
+  framework:
+    type: arduino
+
+<<: !include { file: common/api.yaml, vars: { reboot_timeout: "15min" } }
+<<: !include common/wifi.yaml
+<<: !include common/captive_portal.yaml
+<<: !include common/logger.yaml
+<<: !include common/ota.yaml
+<<: !include common/web_server.yaml
+<<: !include common/time.yaml
+<<: !include common/uptime_sensor.yaml
+<<: !include common/wifi_sensor.yaml
+<<: !include common/version_sensor.yaml
+<<: !include common/status_sensor.yaml
+<<: !include common/restart_switch.yaml
+
+dallas:
+  - pin: GPIO27
+
+sensor:
+  - platform: dallas
+    address: 0x0a3c01b55662b028
+    name: ${device_name}
