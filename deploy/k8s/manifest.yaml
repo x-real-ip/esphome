@@ -65,7 +65,7 @@ spec:
       enableServiceLinks: true
       initContainers:
         - name: esphome-compile-and-update
-          image: "harbor.k8s.lan/k8s/esphome:76"
+          image: "harbor.k8s.lan/k8s/esphome:78"
           command:
             - "bash"
             - "-c"
@@ -76,7 +76,7 @@ spec:
               subPath: secrets.yaml
       containers:
         - name: esphome
-          image: "harbor.k8s.lan/k8s/esphome:76"
+          image: "harbor.k8s.lan/k8s/esphome:78"
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 6052
