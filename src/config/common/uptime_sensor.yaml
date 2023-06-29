@@ -2,4 +2,3 @@
 sensor:
   - platform: uptime
     name: ${device_name}_uptime
-
