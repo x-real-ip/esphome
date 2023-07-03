@@ -6,7 +6,8 @@ substitutions:
 esphome:
   name: ${device_name}
   comment: ${device_comment}
-  platform: ESP32
+
+esp32:
   board: nodemcu-32s
 
 <<: !include { file: common/api.yaml, vars: { reboot_timeout: "15min" } }

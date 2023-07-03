@@ -9,8 +9,6 @@ esphome:
 
 esp32:
   board: esp32dev
-  framework:
-    type: arduino
 
 <<: !include { file: common/api.yaml, vars: { reboot_timeout: "15min" } }
 <<: !include common/wifi.yaml
