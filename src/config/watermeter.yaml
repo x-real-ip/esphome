@@ -7,8 +7,11 @@ esphome:
   name: ${device_name}
   comment: ${device_comment}
 
-esp8266:
-  board: nodemcu
+esp32:
+  board: esp32dev
+  framework:
+    type: arduino
+
 
 <<: !include { file: common/api.yaml, vars: { reboot_timeout: "15min" } }
 <<: !include common/wifi.yaml
@@ -47,16 +50,17 @@ binary_sensor:
     id: internal_pulse_counter
     name: ${device_name}_pulse_counter
     pin:
-      number: D1
+      number: GPIO23
       mode:
         input: true
+        pulldown: true
     on_press:
       - then:
           lambda: id(total_water_pulses) += 1;
 
 sensor:
   - platform: pulse_counter
-    pin: D1
+    pin: GPIO23
     id: ${device_name}_pulse
     name: "${device_name}_pulse"
     update_interval: 10s
