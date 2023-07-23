@@ -19,23 +19,20 @@ steps:
     image: esphome/esphome:latest
     commands:
       - mv ./src/config/secrets.yaml.example ./src/config/secrets.yaml
-      - cd ./src/
-      - for file in $(find config -maxdepth 1 -type f -name "*.yaml" -not -name "secrets.yaml"); do esphome config "$file" ; done
+      - for file in $(find ./src/config -maxdepth 1 -type f -name "*.yaml" -not -name "secrets.yaml"); do esphome config "$file" ; done
 
   - name: Test esp configs with beta
     image: esphome/esphome:beta
     pull: always
     failure: ignore
     commands:
-      - cd ./src/
-      - for file in $(find config -maxdepth 1 -type f -name "*.yaml" -not -name "secrets.yaml"); do esphome config "$file" ; done
+      - for file in $(find ./src/config -maxdepth 1 -type f -name "*.yaml" -not -name "secrets.yaml"); do esphome config "$file" ; done
 
   - name: OTA ESP-home devices
     image: esphome/esphome:latest
     failure: ignore
     commands:
-      - cd ./src/
-      - for file in $(find config -maxdepth 1 -type f -name "*.yaml" -not -name "secrets.yaml"); do esphome run --no-logs "$file"; done
+      - for file in $(find ./src/onfig -maxdepth 1 -type f -name "*.yaml" -not -name "secrets.yaml"); do esphome run --no-logs "$file"; done
 
 ---
 kind: pipeline
