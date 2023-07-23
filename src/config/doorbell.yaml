@@ -34,6 +34,7 @@ switch:
   # Switch to turn on/off the chime.
   - platform: gpio
     id: relay
+    restore_mode: "RESTORE_DEFAULT_OFF"
     inverted: true
     name: ${device_name}_chime
     pin: GPIO0
