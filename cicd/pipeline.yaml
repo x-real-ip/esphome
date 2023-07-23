@@ -43,7 +43,7 @@ type: docker
 name: build
 depends_on:
   - validate
-  - test
+  - update devices
 
 steps:
   - name: build and push image
