@@ -40,8 +40,7 @@ steps:
 ---
 kind: pipeline
 type: docker
-name: build-esphome-
-
+name: build
 depends_on:
   - validate
   - test
