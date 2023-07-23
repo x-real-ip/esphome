@@ -45,7 +45,7 @@ switch:
   - platform: template
     name: ${device_name}_chime_active
     id: chime_active
-    restore_mode: false
+    restore_mode: "false"
     turn_on_action:
       - globals.set:
           id: chime
