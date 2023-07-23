@@ -1,34 +1,22 @@
 ---
 kind: pipeline
 type: docker
-name: validate
-
+name: Check config and update devices
 steps:
-  - name: prettier
-    image: tmknom/prettier:latest
-    commands:
-      - prettier --config "./cicd/.prettierrc.yaml" --ignore-path "./cicd/.prettierignore" --check "./src/config/**/*.yaml"
-
----
-kind: pipeline
-type: docker
-name: update devices
-
-steps:
-  - name: Test esp configs with latest
+  - name: Test with latest
     image: esphome/esphome:latest
     commands:
       - mv ./src/config/secrets.yaml.example ./src/config/secrets.yaml
       - for file in $(find ./src/config -maxdepth 1 -type f -name "*.yaml" -not -name "secrets.yaml"); do esphome config "$file" ; done
 
-  - name: Test esp configs with beta
+  - name: Test with beta
     image: esphome/esphome:beta
     pull: always
     failure: ignore
     commands:
       - for file in $(find ./src/config -maxdepth 1 -type f -name "*.yaml" -not -name "secrets.yaml"); do esphome config "$file" ; done
 
-  - name: OTA ESP-home devices
+  - name: OTA devices
     image: esphome/esphome:latest
     failure: ignore
     commands:
@@ -37,11 +25,7 @@ steps:
 ---
 kind: pipeline
 type: docker
-name: build
-depends_on:
-  - validate
-  - update devices
-
+name: build dashboard
 steps:
   - name: build and push image
     image: quay.io/buildah/stable
@@ -85,9 +69,14 @@ type: docker
 name: deploy
 
 depends_on:
-  - build
+  - build dashboard
 
 steps:
+  - name: Prettier
+    image: tmknom/prettier:latest
+    commands:
+      - prettier --config "./cicd/.prettierrc.yaml" --ignore-path "./cicd/.prettierignore" --write "./src/config/**/*.yaml"
+
   - name: Upgrade k8s manifest
     image: alpine:3
     network_mode: host
@@ -98,7 +87,7 @@ steps:
         "s%/$${REGISTRY_NAME}/$${DRONE_REPO_NAME}:.*%/$${REGISTRY_NAME}/$${DRONE_REPO_NAME}:$${DRONE_BUILD_NUMBER}\"%g"
         ./deploy/k8s/manifest.yaml
 
-  - name: Push k8s manifest
+  - name: Push to github
     image: appleboy/drone-git-push:1-linux-amd64
     settings:
       remote_name: "git@github.com:${DRONE_REPO}"
