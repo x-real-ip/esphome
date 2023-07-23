@@ -34,6 +34,7 @@ steps:
     image: esphome/esphome:latest
     commands:
       - cd ./src/
+      - ls -la
       - for file in $(find /config -maxdepth 1 -type f -name "*.yaml" -not -name "secrets.yaml"); do esphome run --no-logs "$file"; done
 
 ---
