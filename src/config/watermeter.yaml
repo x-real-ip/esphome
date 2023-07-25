@@ -52,7 +52,7 @@ binary_sensor:
       number: GPIO23
       mode:
         input: true
-        pulldown: true
+        pullup: true
     on_press:
       - then:
           lambda: id(total_water_pulses) += 1;
