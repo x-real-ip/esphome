@@ -1,0 +1,51 @@
+---
+substitutions:
+  device_name: cv-closet
+  device_comment:
+    "Two relays for 12v for charging walltablet and 230v to turn on led spots in closet"
+
+esphome:
+  name: ${device_name}
+  comment: ${device_comment}
+
+esp32:
+  board: esp32dev
+  framework:
+    type: arduino
+
+<<: !include { file: common/api.yaml, vars: { reboot_timeout: "15min" } }
+<<: !include common/wifi.yaml
+<<: !include common/captive_portal.yaml
+<<: !include common/logger.yaml
+<<: !include common/ota.yaml
+<<: !include common/web_server.yaml
+<<: !include common/time.yaml
+<<: !include common/uptime_sensor.yaml
+<<: !include common/wifi_sensor.yaml
+<<: !include common/version_sensor.yaml
+<<: !include common/status_sensor.yaml
+<<: !include common/restart_switch.yaml
+
+i2c:
+  sda: 22
+  scl: 23
+  scan: true
+
+sensor:
+  - platform: bh1750
+    name: "${device_name}_illuminance"
+    address: 0x23
+    update_interval: 1s
+
+switch:
+  - platform: gpio
+    name: "${device_name}_sw_01"
+    pin:
+      number: 18
+      inverted: true
+
+  - platform: gpio
+    name: "${device_name}_sw_02"
+    pin:
+      number: 19
+      inverted: true
