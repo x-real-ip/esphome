@@ -1,4 +1,4 @@
 ---
-switch:
+button:
   - platform: restart
     name: ${device_name}_restart
