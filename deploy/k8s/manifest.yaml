@@ -65,7 +65,7 @@ spec:
       enableServiceLinks: true
       containers:
         - name: esphome
-          image: "harbor.k8s.lan/k8s/esphome:121"
+          image: "harbor.lan.theautomation.nl/k8s/esphome:121"
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 6052
@@ -149,7 +149,7 @@ metadata:
 spec:
   ingressClassName: nginx-private
   rules:
-    - host: esphome.k8s.lan
+    - host: esphome.lan.theautomation.nl
       http:
         paths:
           - path: "/"
