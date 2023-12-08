@@ -61,7 +61,7 @@ switch:
 # Doorbell button push.
 binary_sensor:
   - platform: gpio
-    id: button
+    id: doorbell_button
     name: ${device_name}_button
     pin:
       # Connected to GPIO on the ESP-01S.
