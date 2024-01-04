@@ -12,7 +12,7 @@ esp32:
   framework:
     type: arduino
 
-<<: !include { file: common/api.yaml, vars: { reboot_timeout: "15min" } }
+<<: !include {file: common/api.yaml, vars: {reboot_timeout: "15min"}}
 <<: !include common/wifi.yaml
 <<: !include common/captive_portal.yaml
 <<: !include common/logger.yaml
