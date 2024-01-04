@@ -1,6 +1,6 @@
 # ESPHome
 
-[![Build Status](https://drone.theautomation.nl/api/badges/theautomation/esphome/status.svg)](https://drone.theautomation.nl/theautomation/esphome)
+[![Continuous integration](https://github.com/theautomation/esphome/actions/workflows/ci.yaml/badge.svg)](https://github.com/theautomation/esphome/actions/workflows/ci.yaml)
 ![GitHub repo size](https://img.shields.io/github/repo-size/theautomation/esphome?logo=Github)
 ![GitHub commit activity](https://img.shields.io/github/commit-activity/y/theautomation/esphome?logo=github)
 ![GitHub last commit (branch)](https://img.shields.io/github/last-commit/theautomation/esphome/main?logo=github)
