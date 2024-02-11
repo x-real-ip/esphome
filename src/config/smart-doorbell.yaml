@@ -78,17 +78,15 @@ switch:
 
 binary_sensor:
   - platform: gpio
+    name: ${device_name}_button
     pin:
       number: GPIO4
       mode: INPUT_PULLUP
-      inverted: true
-    name: "${device_name}"
+      inverted: false
     filters:
-      # Small filter, to debounce the button press.
       - delayed_on: 25ms
       - delayed_off: 25ms
     on_press:
-      # Only turn on the chime when it is active.
       then:
         if:
           condition:
@@ -96,5 +94,4 @@ binary_sensor:
           then:
             - switch.turn_on: relay
     on_release:
-      # On release, turn of the chime.
       - switch.turn_off: relay
