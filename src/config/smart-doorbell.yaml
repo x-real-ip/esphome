@@ -1,0 +1,100 @@
+---
+substitutions:
+  device_name: smart-doorbell
+  device_comment: "Zuidwijk smart-doorbell"
+
+esphome:
+  name: ${device_name}
+  comment: ${device_comment}
+  project:
+    name: zuidwijk.smart-doorbell
+    version: "1.0"
+
+esp32:
+  board: esp32dev
+  framework:
+    type: arduino
+
+<<: !include common/api.yaml
+<<: !include common/wifi.yaml
+<<: !include common/captive_portal.yaml
+<<: !include common/logger.yaml
+<<: !include common/ota.yaml
+<<: !include common/web_server.yaml
+<<: !include common/time.yaml
+<<: !include common/uptime_sensor.yaml
+<<: !include common/wifi_sensor.yaml
+<<: !include common/version_sensor.yaml
+<<: !include common/status_sensor.yaml
+<<: !include common/status_sensor.yaml
+<<: !include common/improv_serial.yaml
+
+esp32_improv:
+  authorizer: none
+
+#doesnt work together with captive_portal
+esp32_ble_tracker:
+  scan_parameters:
+    interval: 1100ms
+    window: 1100ms
+    active: true
+
+bluetooth_proxy:
+  active: true
+
+dashboard_import:
+  package_import_url: github://zuidwijk/esphome-doorbell/smart-doorbell.yaml@main
+  import_full_config: true
+
+globals:
+  - id: chime
+    type: bool
+    restore_value: true
+    initial_value: "true"
+
+switch:
+  - platform: gpio
+    pin:
+      number: GPIO5
+      inverted: false
+    name: "Doorbell Relay"
+    id: relay
+    internal: true
+    icon: mdi:alarm-bell
+  - platform: template
+    name: Doorbell Chime Active
+    id: chime_active
+    restore_mode: disabled
+    turn_on_action:
+      - globals.set:
+          id: chime
+          value: "true"
+    turn_off_action:
+      - globals.set:
+          id: chime
+          value: "false"
+    lambda: |-
+      return id(chime);
+
+binary_sensor:
+  - platform: gpio
+    pin:
+      number: GPIO4
+      mode: INPUT_PULLUP
+      inverted: true
+    name: "Doorbell"
+    filters:
+      # Small filter, to debounce the button press.
+      - delayed_on: 25ms
+      - delayed_off: 25ms
+    on_press:
+      # Only turn on the chime when it is active.
+      then:
+        if:
+          condition:
+            - switch.is_on: chime_active
+          then:
+            - switch.turn_on: relay
+    on_release:
+      # On release, turn of the chime.
+      - switch.turn_off: relay
