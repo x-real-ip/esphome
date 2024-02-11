@@ -15,7 +15,7 @@ esp32:
   framework:
     type: arduino
 
-<<: !include common/api.yaml
+<<: !include { file: common/api.yaml, vars: { reboot_timeout: "15min" } }
 <<: !include common/wifi.yaml
 <<: !include common/captive_portal.yaml
 <<: !include common/logger.yaml
@@ -57,12 +57,12 @@ switch:
     pin:
       number: GPIO5
       inverted: false
-    name: "Doorbell Relay"
+    name: "${device_name}_relay"
     id: relay
-    internal: true
+    internal: false
     icon: mdi:alarm-bell
   - platform: template
-    name: Doorbell Chime Active
+    name: ${device_name}_active
     id: chime_active
     restore_mode: disabled
     turn_on_action:
@@ -82,7 +82,7 @@ binary_sensor:
       number: GPIO4
       mode: INPUT_PULLUP
       inverted: true
-    name: "Doorbell"
+    name: "${device_name}"
     filters:
       # Small filter, to debounce the button press.
       - delayed_on: 25ms
