@@ -11,6 +11,7 @@ esp32:
   board: esp32dev
 
 <<: !include {file: common/api.yaml, vars: {reboot_timeout: "15min"}}
+<<: !include common/api.yaml
 <<: !include common/wifi.yaml
 <<: !include common/captive_portal.yaml
 <<: !include common/logger.yaml
