@@ -22,16 +22,8 @@ binary_sensor:
     name: ${device_name}_status
 
 sensor:
-  - platform: uptime
-    name: ${device_name}_uptime
-  - platform: wifi_signal
-    name: ${device_name}_wifi_signal
-    update_interval: 20s
-    filters:
-      - sliding_window_moving_average:
-          window_size: 3
-          send_every: 3
-          send_first_at: 3
+  - <<: !include common/sensor/uptime.yaml
+  - <<: !include common/sensor/wifi_signal.yaml
   - platform: dallas
     address: 0x0a3c01b55662b028
     name: ${device_name}
