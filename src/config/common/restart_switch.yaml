@@ -1,4 +1,0 @@
----
-switch:
-  - platform: restart
-    name: ${device_name}_restart

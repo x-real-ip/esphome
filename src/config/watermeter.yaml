@@ -1,4 +1,6 @@
 ---
+<<: !include common/.base.yaml
+
 substitutions:
   device_name: watermeter
   device_comment: "This sensor detects every liter of used water"
@@ -12,18 +14,20 @@ esp32:
   framework:
     type: arduino
 
-<<: !include {file: common/api.yaml, vars: {reboot_timeout: "15min"}}
-<<: !include common/wifi.yaml
-<<: !include common/captive_portal.yaml
-<<: !include common/logger.yaml
-<<: !include common/ota.yaml
-<<: !include common/web_server.yaml
-<<: !include common/time.yaml
-<<: !include common/uptime_sensor.yaml
-<<: !include common/wifi_sensor.yaml
-<<: !include common/version_sensor.yaml
-<<: !include common/status_sensor.yaml
-<<: !include common/restart_switch.yaml
+button:
+  - platform: restart
+    name: ${device_name}_restart
+
+text_sensor:
+  - platform: version
+    name: ${device_name}_version
+  - platform: wifi_info
+    ip_address:
+      name: ${device_name}_wifi_ip
+    ssid:
+      name: ${device_name}_wifi_ssid
+    bssid:
+      name: ${device_name}_wifi_bssid
 
 globals:
   - id: initial_water_usage
@@ -35,6 +39,9 @@ globals:
     restore_value: yes
 
 api:
+  encryption:
+    key: !secret api_encryption_key
+  reboot_timeout: ${reboot_timeout}
   services:
     - service: meter_value_water
       variables:
@@ -45,6 +52,8 @@ api:
             value: !lambda "return ( meter_value ) ;"
 
 binary_sensor:
+  - platform: status
+    name: ${device_name}_status
   - platform: gpio
     id: internal_pulse_counter
     name: ${device_name}_pulse_counter
@@ -58,6 +67,16 @@ binary_sensor:
           lambda: id(total_water_pulses) += 1;
 
 sensor:
+  - platform: uptime
+    name: ${device_name}_uptime
+  - platform: wifi_signal
+    name: ${device_name}_wifi_signal
+    update_interval: 20s
+    filters:
+      - sliding_window_moving_average:
+          window_size: 3
+          send_every: 3
+          send_first_at: 3
   - platform: pulse_counter
     pin: GPIO23
     id: ${device_name}_pulse
@@ -67,7 +86,6 @@ sensor:
     unit_of_measurement: "l/min"
     accuracy_decimals: 1
     icon: "mdi:water-pump"
-
     total:
       id: sensor_pulse_meter_total
       name: "${device_name}_total_since_start"
@@ -77,7 +95,6 @@ sensor:
       accuracy_decimals: 3
       filters:
         - multiply: 0.001
-
   - platform: template
     id: ${device_name}_total
     name: "${device_name}_value"
@@ -86,7 +103,6 @@ sensor:
     unit_of_measurement: m3
     accuracy_decimals: 3
     lambda: return id(initial_water_usage) + (id(total_water_pulses) * 0.001);
-
   - platform: template
     id: ${device_name}_pulses
     name: "${device_name}_pulse_total"

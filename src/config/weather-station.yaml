@@ -1,7 +1,10 @@
 ---
+<<: !include common/.base.yaml
+
 substitutions:
   device_name: weather-station
-  device_comment: "This ESP detects illuminance, temperature, pressure and relative humidity"
+  device_comment:
+    "This ESP detects illuminance, temperature, pressure and relative humidity"
 
 esphome:
   name: ${device_name}
@@ -10,18 +13,24 @@ esphome:
 esp32:
   board: nodemcu-32s
 
-<<: !include {file: common/api.yaml, vars: {reboot_timeout: "15min"}}
-<<: !include common/wifi.yaml
-<<: !include common/captive_portal.yaml
-<<: !include common/logger.yaml
-<<: !include common/ota.yaml
-<<: !include common/web_server.yaml
-<<: !include common/time.yaml
-<<: !include common/uptime_sensor.yaml
-<<: !include common/wifi_sensor.yaml
-<<: !include common/version_sensor.yaml
-<<: !include common/status_sensor.yaml
-<<: !include common/restart_switch.yaml
+button:
+  - platform: restart
+    name: ${device_name}_restart
+
+binary_sensor:
+  - platform: status
+    name: ${device_name}_status
+
+text_sensor:
+  - platform: version
+    name: ${device_name}_version
+  - platform: wifi_info
+    ip_address:
+      name: ${device_name}_wifi_ip
+    ssid:
+      name: ${device_name}_wifi_ssid
+    bssid:
+      name: ${device_name}_wifi_bssid
 
 i2c:
   sda: 21
@@ -29,20 +38,29 @@ i2c:
   scan: false
 
 sensor:
+  - platform: uptime
+    name: ${device_name}_uptime
+  - platform: wifi_signal
+    name: ${device_name}_wifi_signal
+    update_interval: 20s
+    filters:
+      - sliding_window_moving_average:
+          window_size: 3
+          send_every: 3
+          send_first_at: 3
   - platform: bh1750
     name: "${device_name}_illuminance"
     address: 0x23
     update_interval: 2s
-
-  - platform: bme280
-    temperature:
-      name: "${device_name}_temperature"
-      id: bme280_temperature
-    pressure:
-      name: "${device_name}_pressure"
-      id: bme280_pressure
-    humidity:
-      name: "${device_name}_relative_humidity"
-      id: bme280_humidity
-    address: 0x76
-    update_interval: 60s
+  # - platform: bme280
+  #   temperature:
+  #     name: "${device_name}_temperature"
+  #     id: bme280_temperature
+  #   pressure:
+  #     name: "${device_name}_pressure"
+  #     id: bme280_pressure
+  #   humidity:
+  #     name: "${device_name}_relative_humidity"
+  #     id: bme280_humidity
+  #   address: 0x76
+  #   update_interval: 60s

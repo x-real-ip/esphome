@@ -1,4 +1,0 @@
----
-binary_sensor:
-  - platform: status
-    name: ${device_name}_status

@@ -1,4 +1,6 @@
 ---
+<<: !include common/.base.yaml
+
 substitutions:
   device_name: smart-doorbell
   device_comment: "Zuidwijk smart-doorbell"
@@ -15,32 +17,35 @@ esp32:
   framework:
     type: arduino
 
-<<: !include { file: common/api.yaml, vars: { reboot_timeout: "15min" } }
-<<: !include common/wifi.yaml
-<<: !include common/captive_portal.yaml
-<<: !include common/logger.yaml
-<<: !include common/ota.yaml
-<<: !include common/web_server.yaml
-<<: !include common/time.yaml
-<<: !include common/uptime_sensor.yaml
-<<: !include common/wifi_sensor.yaml
-<<: !include common/version_sensor.yaml
-<<: !include common/status_sensor.yaml
-<<: !include common/status_sensor.yaml
-<<: !include common/improv_serial.yaml
+button:
+  - platform: restart
+    name: ${device_name}_restart
+
+sensor:
+  - platform: uptime
+    name: ${device_name}_uptime
+  - platform: wifi_signal
+    name: ${device_name}_wifi_signal
+    update_interval: 20s
+    filters:
+      - sliding_window_moving_average:
+          window_size: 3
+          send_every: 3
+          send_first_at: 3
+
+text_sensor:
+  - platform: version
+    name: ${device_name}_version
+  - platform: wifi_info
+    ip_address:
+      name: ${device_name}_wifi_ip
+    ssid:
+      name: ${device_name}_wifi_ssid
+    bssid:
+      name: ${device_name}_wifi_bssid
 
 esp32_improv:
   authorizer: none
-
-#doesnt work together with captive_portal
-esp32_ble_tracker:
-  scan_parameters:
-    interval: 1100ms
-    window: 1100ms
-    active: true
-
-bluetooth_proxy:
-  active: true
 
 dashboard_import:
   package_import_url: github://zuidwijk/esphome-doorbell/smart-doorbell.yaml@main
@@ -77,6 +82,8 @@ switch:
       return id(chime);
 
 binary_sensor:
+  - platform: status
+    name: ${device_name}_status
   - platform: gpio
     name: ${device_name}_button
     pin:
