@@ -20,8 +20,8 @@ binary_sensor:
   - <<: !include common/binary_sensor/status.yaml
 
 text_sensor:
-  - <<: !include common/sensor/uptime.yaml
-  - <<: !include common/sensor/wifi_info.yaml
+  - <<: !include common/text_sensor/version.yaml
+  - <<: !include common/text_sensor/wifi_info.yaml
 
 i2c:
   sda: 21
