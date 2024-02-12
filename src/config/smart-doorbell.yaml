@@ -1,5 +1,5 @@
 ---
-<<: !include common/.base.yaml
+<<: !include common/base.yaml
 
 substitutions:
   device_name: smart-doorbell
@@ -18,23 +18,15 @@ esp32:
     type: arduino
 
 button:
-  - platform: restart
-    name: ${device_name}_restart
+  - <<: !include common/button/restart.yaml
 
 sensor:
   - <<: !include common/sensor/uptime.yaml
   - <<: !include common/sensor/wifi_signal.yaml
 
 text_sensor:
-  - platform: version
-    name: ${device_name}_version
-  - platform: wifi_info
-    ip_address:
-      name: ${device_name}_wifi_ip
-    ssid:
-      name: ${device_name}_wifi_ssid
-    bssid:
-      name: ${device_name}_wifi_bssid
+  - <<: !include common/text_sensor/version.yaml
+  - <<: !include common/text_sensor/wifi_info.yaml
 
 esp32_improv:
   authorizer: none
@@ -74,8 +66,7 @@ switch:
       return id(chime);
 
 binary_sensor:
-  - platform: status
-    name: ${device_name}_status
+  - <<: !include common/binary_sensor/status.yaml
   - platform: gpio
     name: ${device_name}_button
     pin:

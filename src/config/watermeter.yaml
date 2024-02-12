@@ -1,5 +1,5 @@
 ---
-<<: !include common/.base.yaml
+<<: !include common/base.yaml
 
 substitutions:
   device_name: watermeter
@@ -15,19 +15,11 @@ esp32:
     type: arduino
 
 button:
-  - platform: restart
-    name: ${device_name}_restart
+  - <<: !include common/button/restart.yaml
 
 text_sensor:
-  - platform: version
-    name: ${device_name}_version
-  - platform: wifi_info
-    ip_address:
-      name: ${device_name}_wifi_ip
-    ssid:
-      name: ${device_name}_wifi_ssid
-    bssid:
-      name: ${device_name}_wifi_bssid
+  - <<: !include common/text_sensor/version.yaml
+  - <<: !include common/text_sensor/wifi_info.yaml
 
 globals:
   - id: initial_water_usage
@@ -52,8 +44,7 @@ api:
             value: !lambda "return ( meter_value ) ;"
 
 binary_sensor:
-  - platform: status
-    name: ${device_name}_status
+  - <<: !include common/binary_sensor/status.yaml
   - platform: gpio
     id: internal_pulse_counter
     name: ${device_name}_pulse_counter
