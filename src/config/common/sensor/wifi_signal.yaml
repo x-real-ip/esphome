@@ -1,0 +1,6 @@
+---
+platform: wifi_signal
+name: ${device_name}_wifi_signal
+id: wifi_signal_db
+update_interval: 60s
+entity_category: "diagnostic"

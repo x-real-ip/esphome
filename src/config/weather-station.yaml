@@ -1,5 +1,5 @@
 ---
-<<: !include common/.base.yaml
+<<: !include common/base.yaml
 
 substitutions:
   device_name: weather-station
@@ -14,23 +14,14 @@ esp32:
   board: nodemcu-32s
 
 button:
-  - platform: restart
-    name: ${device_name}_restart
+  - <<: !include common/button/restart.yaml
 
 binary_sensor:
-  - platform: status
-    name: ${device_name}_status
+  - <<: !include common/binary_sensor/status.yaml
 
 text_sensor:
-  - platform: version
-    name: ${device_name}_version
-  - platform: wifi_info
-    ip_address:
-      name: ${device_name}_wifi_ip
-    ssid:
-      name: ${device_name}_wifi_ssid
-    bssid:
-      name: ${device_name}_wifi_bssid
+  - <<: !include common/sensor/uptime.yaml
+  - <<: !include common/sensor/wifi_info.yaml
 
 i2c:
   sda: 21
@@ -38,16 +29,8 @@ i2c:
   scan: false
 
 sensor:
-  - platform: uptime
-    name: ${device_name}_uptime
-  - platform: wifi_signal
-    name: ${device_name}_wifi_signal
-    update_interval: 20s
-    filters:
-      - sliding_window_moving_average:
-          window_size: 3
-          send_every: 3
-          send_first_at: 3
+  - <<: !include common/sensor/uptime.yaml
+  - <<: !include common/sensor/wifi_signal.yaml
   - platform: bh1750
     name: "${device_name}_illuminance"
     address: 0x23
