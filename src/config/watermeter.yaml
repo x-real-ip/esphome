@@ -33,7 +33,6 @@ globals:
 api:
   encryption:
     key: !secret api_encryption_key
-  reboot_timeout: ${reboot_timeout}
   services:
     - service: meter_value_water
       variables:
@@ -45,17 +44,6 @@ api:
 
 binary_sensor:
   - <<: !include common/binary_sensor/status.yaml
-  - platform: gpio
-    id: internal_pulse_counter
-    name: ${device_name}_pulse_counter
-    pin:
-      number: GPIO23
-      mode:
-        input: true
-        pullup: true
-    on_press:
-      - then:
-          lambda: id(total_water_pulses) += 1;
 
 sensor:
   - <<: !include common/sensor/uptime.yaml
