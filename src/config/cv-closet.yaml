@@ -4,12 +4,16 @@
 substitutions:
   device_name: cv-closet
   device_comment:
-    "Two relays for 12v for charging walltablet and 230v to turn on led spots in
+    "Two relays, 12v for charging walltablet and 230v to turn on led spots in
     closet"
 
 esphome:
   name: ${device_name}
   comment: ${device_comment}
+  on_boot:
+    priority: 600
+    then:
+      - switch.turn_on: "walltablet_charger"
 
 esp32:
   board: esp32dev
@@ -49,6 +53,7 @@ output:
 switch:
   - platform: gpio
     name: "${device_name}_walltablet_charger"
+    id: "walltablet_charger"
     pin:
       number: 19
       inverted: true
