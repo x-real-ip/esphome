@@ -1,3 +1,3 @@
-FROM docker.io/esphome/esphome:2023.12
+FROM docker.io/esphome/esphome:latest
 
 COPY ./src/config /config
