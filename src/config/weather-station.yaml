@@ -35,15 +35,7 @@ sensor:
     name: "${device_name}_illuminance"
     address: 0x23
     update_interval: 2s
-  # - platform: bme280
-  #   temperature:
-  #     name: "${device_name}_temperature"
-  #     id: bme280_temperature
-  #   pressure:
-  #     name: "${device_name}_pressure"
-  #     id: bme280_pressure
-  #   humidity:
-  #     name: "${device_name}_relative_humidity"
-  #     id: bme280_humidity
-  #   address: 0x76
-  #   update_interval: 60s
+  - platform: dallas_temp
+    address: 0x3b3c01b556d47c28
+    name: "${device_name}_temperature"
+    update_interval: 120s
