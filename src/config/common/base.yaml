@@ -9,7 +9,8 @@ captive_portal:
 logger:
 
 ota:
-  password: !secret ota_password
+  - platform: esphome
+    password: !secret ota_password
 
 time:
   - platform: homeassistant
