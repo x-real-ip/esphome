@@ -24,11 +24,11 @@ text_sensor:
 globals:
   - id: initial_water_usage
     type: float
-    restore_value: yes
+    restore_value: true
     initial_value: "0"
   - id: total_water_pulses
     type: int
-    restore_value: yes
+    restore_value: true
 
 api:
   encryption:
