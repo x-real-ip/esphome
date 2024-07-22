@@ -19,16 +19,17 @@ button:
 binary_sensor:
   - <<: !include common/binary_sensor/status.yaml
 
+one_wire:
+  - platform: gpio
+    pin: GPIO27
+
 sensor:
   - <<: !include common/sensor/uptime.yaml
   - <<: !include common/sensor/wifi_signal.yaml
-  - platform: dallas
+  - platform: dallas_temp
     address: 0x0a3c01b55662b028
     name: ${device_name}
 
 text_sensor:
   - <<: !include common/text_sensor/version.yaml
   - <<: !include common/text_sensor/wifi_info.yaml
-
-dallas:
-  - pin: GPIO27
