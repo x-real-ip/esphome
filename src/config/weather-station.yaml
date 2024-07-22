@@ -28,6 +28,10 @@ i2c:
   scl: 22
   scan: false
 
+one_wire:
+  - platform: gpio
+    pin: GPIO04
+
 sensor:
   - <<: !include common/sensor/uptime.yaml
   - <<: !include common/sensor/wifi_signal.yaml
