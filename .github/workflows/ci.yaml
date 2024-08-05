@@ -55,7 +55,7 @@ jobs:
 
   build-and-push-image:
     name: Build and Push Image
-    needs: [yamllint]
+    needs: [yamllint, test_latest, test_beta]
     uses: theautomation/github-actions/.github/workflows/build-and-push.yaml@main
     with:
       publish: true
