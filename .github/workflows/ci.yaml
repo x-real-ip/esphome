@@ -13,6 +13,46 @@ jobs:
     name: Yaml lint
     uses: theautomation/github-actions/.github/workflows/yamllint.yaml@main
 
+  test_latest:
+    runs-on: ubuntu-latest
+    container:
+      image: esphome/esphome:latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Prepare secrets file
+        run: mv ./src/config/secrets.yaml.example ./src/config/secrets.yaml
+
+      - name: Test esp configs with latest
+        run: |
+          cd ./src/
+          for file in $(find config -maxdepth 1 -type f -name "*.yaml" -not -name "secrets.yaml"); do
+            esphome config "$file"
+          done
+          for file in $(find ./src/config -maxdepth 1 -type f -name "*.yaml" -not -name "secrets.yaml"); do
+            esphome config "$file"
+          done
+
+  test_beta:
+    runs-on: ubuntu-latest
+    container:
+      image: esphome/esphome:beta
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Test esp configs with beta
+        continue-on-error: true
+        run: |
+          cd ./src/
+          for file in $(find config -maxdepth 1 -type f -name "*.yaml" -not -name "secrets.yaml"); do
+            esphome config "$file"
+          done
+          for file in $(find ./src/config -maxdepth 1 -type f -name "*.yaml" -not -name "secrets.yaml"); do
+            esphome config "$file"
+          done
+
   build-and-push-image:
     name: Build and Push Image
     needs: [yamllint]
