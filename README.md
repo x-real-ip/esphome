@@ -1,9 +1,9 @@
 # ESPHome
 
 [![Continuous integration](https://github.com/x-real-ip/esphome/actions/workflows/ci.yaml/badge.svg)](https://github.com/x-real-ip/esphome/actions/workflows/ci.yaml)
-![GitHub repo size](https://img.shields.io/github/repo-size/theautomation/esphome?logo=Github)
-![GitHub commit activity](https://img.shields.io/github/commit-activity/y/theautomation/esphome?logo=github)
-![GitHub last commit (branch)](https://img.shields.io/github/last-commit/theautomation/esphome/main?logo=github)
+![GitHub repo size](https://img.shields.io/github/repo-size/x-real-ip/esphome?logo=Github)
+![GitHub commit activity](https://img.shields.io/github/commit-activity/y/x-real-ip/esphome?logo=github)
+![GitHub last commit (branch)](https://img.shields.io/github/last-commit/x-real-ip/esphome/main?logo=github)
 
 [ESPHome](https://dsmr-reader.readthedocs.io/en/latest/explained/about.html/): A system to control ESP8266/ESP32 by simple yet powerful configuration files and control them remotely through Home Automation systems.
 
