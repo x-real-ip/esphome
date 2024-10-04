@@ -38,7 +38,7 @@ sensor:
   - platform: bh1750
     name: "${device_name}_illuminance"
     address: 0x23
-    update_interval: 2s
+    update_interval: 60s
   - platform: dallas_temp
     address: 0x3b3c01b556d47c28
     name: "${device_name}_temperature"
