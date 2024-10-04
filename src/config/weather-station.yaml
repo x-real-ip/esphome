@@ -44,7 +44,8 @@ sensor:
     name: "${device_name}_temperature"
     update_interval: 120s
   - platform: dht
-    pin: GPIO18
+    model: DHT22
+    pin: GPIO25
     temperature:
       name: "${device_name}_dht_temperature"
     humidity:
