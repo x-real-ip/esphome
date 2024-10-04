@@ -43,3 +43,10 @@ sensor:
     address: 0x3b3c01b556d47c28
     name: "${device_name}_temperature"
     update_interval: 120s
+  - platform: dht
+    pin: GPIO18
+    temperature:
+      name: "${device_name}_dht_temperature"
+    humidity:
+      name: "${device_name}_dht_humidity"
+    update_interval: 60s
