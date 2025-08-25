@@ -18,6 +18,9 @@ jobs:
           - name: ESP-Home
             type: release
             target: esphome/esphome
+          - name: Opentherm Gateway
+            type: release
+            target: Laxilef/OTGateway
     with:
       name: ${{ matrix.name }}
       target: ${{ matrix.target }}
