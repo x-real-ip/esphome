@@ -16,7 +16,7 @@ jobs:
       matrix:
         version: [latest, beta]
     container:
-        image: esphome/esphome:${{ matrix.version }}
+      image: esphome/esphome:${{ matrix.version }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
