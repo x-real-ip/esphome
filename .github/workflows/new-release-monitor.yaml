@@ -23,6 +23,8 @@ jobs:
           - name: Opentherm Gateway
             type: release
             target: Laxilef/OTGateway
+            bump: false
+            bump_type: ""
     with:
       name: ${{ matrix.name }}
       target: ${{ matrix.target }}
