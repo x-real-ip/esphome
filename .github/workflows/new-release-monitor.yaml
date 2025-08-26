@@ -18,6 +18,8 @@ jobs:
           - name: ESP-Home
             type: release
             target: esphome/esphome
+            bump: true
+            bump_type: containerfile
           - name: Opentherm Gateway
             type: release
             target: Laxilef/OTGateway
