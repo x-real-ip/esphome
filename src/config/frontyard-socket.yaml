@@ -1,0 +1,34 @@
+---
+<<: !include common/base.yaml
+
+substitutions:
+  device_name: frontyard-socket
+  device_comment:
+    "Relay switch to control power of the frontyard socket"
+
+esphome:
+  name: ${device_name}
+  comment: ${device_comment}
+
+esp8266:
+  board: d1_mini
+
+button:
+  - <<: !include common/button/restart.yaml
+
+binary_sensor:
+  - <<: !include common/binary_sensor/status.yaml
+
+text_sensor:
+  - <<: !include common/text_sensor/version.yaml
+  - <<: !include common/text_sensor/wifi_info.yaml
+
+sensor:
+  - <<: !include common/sensor/uptime.yaml
+  - <<: !include common/sensor/wifi_signal.yaml
+
+switch:
+  - platform: gpio
+    name: "${device_name}_sw_01"
+    pin:
+      number: D1
