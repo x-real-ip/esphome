@@ -12,6 +12,8 @@ esphome:
 
 esp32:
   board: esp32dev
+  framework:
+    type: esp-idf
 
 button:
   - <<: !include common/button/restart.yaml
