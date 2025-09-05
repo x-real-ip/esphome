@@ -22,14 +22,20 @@ jobs:
             target: esphome/esphome
             bump: true
             bump_type: containerfile
+            include_tags : ""
+            exclude_tags : ""
           - name: Opentherm Gateway
             type: release
             target: Laxilef/OTGateway
             bump: false
             bump_type: ""
+            include_tags : ""
+            exclude_tags : ""
     with:
       name: ${{ matrix.name }}
       target: ${{ matrix.target }}
       type: ${{ matrix.type }}
       bump: ${{ matrix.bump }}
       bump_type: ${{ matrix.bump_type }}
+      include_tags: ${{ matrix.include_tags }}
+      exclude_tags: ${{ matrix.exclude_tags }}
