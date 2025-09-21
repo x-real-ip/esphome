@@ -51,83 +51,41 @@ switch:
     name: "${device_name}_sw_04"
     pin: 23
 
-  # Virtual mode switches
+# Fan mode selector
+select:
   - platform: template
-    id: mode_off
-    name: "${device_name}_off"
-    turn_on_action:
-      - switch.template.publish:
-          id: mode_low
-          state: OFF
-      - switch.template.publish:
-          id: mode_mid
-          state: OFF
-      - switch.template.publish:
-          id: mode_high
-          state: OFF
-      - switch.turn_off: sw_04
-      - delay: 0.5s
-      - switch.turn_off: sw_03
-      - delay: 0.5s
-      - switch.turn_off: sw_01
-      - delay: 0.5s
-
-  - platform: template
-    id: mode_low
-    name: "${device_name}_low"
-    turn_on_action:
-      - switch.template.publish:
-          id: mode_off
-          state: OFF
-      - switch.template.publish:
-          id: mode_mid
-          state: OFF
-      - switch.template.publish:
-          id: mode_high
-          state: OFF
-      - switch.turn_off: sw_04
-      - delay: 0.5s
-      - switch.turn_off: sw_03
-      - delay: 0.5s
-      - switch.turn_on: sw_01
-      - delay: 0.5s
-
-  - platform: template
-    id: mode_mid
-    name: "${device_name}_mid"
-    turn_on_action:
-      - switch.template.publish:
-          id: mode_off
-          state: OFF
-      - switch.template.publish:
-          id: mode_low
-          state: OFF
-      - switch.template.publish:
-          id: mode_high
-          state: OFF
-      - switch.turn_off: sw_04
-      - delay: 0.5s
-      - switch.turn_on: sw_01
-      - delay: 0.5s
-      - switch.turn_on: sw_03
-      - delay: 0.5s
-
-  - platform: template
-    id: mode_high
-    name: "${device_name}_high"
-    turn_on_action:
-      - switch.template.publish:
-          id: mode_off
-          state: OFF
-      - switch.template.publish:
-          id: mode_low
-          state: OFF
-      - switch.template.publish:
-          id: mode_mid
-          state: OFF
-      - switch.turn_on: sw_01
-      - delay: 0.5s
-      - switch.turn_off: sw_03
-      - delay: 0.5s
-      - switch.turn_on: sw_04
-      - delay: 0.5s
+    id: fan_mode
+    name: "${device_name}_mode"
+    optimistic: true
+    options:
+      - "Off"
+      - "Low"
+      - "Mid"
+      - "High"
+    set_action:
+      - lambda: |-
+          if (x == "Off") {
+            id(sw_04).turn_off();
+            delay(500);
+            id(sw_03).turn_off();
+            delay(500);
+            id(sw_01).turn_off();
+          } else if (x == "Low") {
+            id(sw_04).turn_off();
+            delay(500);
+            id(sw_03).turn_off();
+            delay(500);
+            id(sw_01).turn_on();
+          } else if (x == "Mid") {
+            id(sw_04).turn_off();
+            delay(500);
+            id(sw_01).turn_on();
+            delay(500);
+            id(sw_03).turn_on();
+          } else if (x == "High") {
+            id(sw_01).turn_on();
+            delay(500);
+            id(sw_03).turn_off();
+            delay(500);
+            id(sw_04).turn_on();
+          }
