@@ -8,6 +8,10 @@ substitutions:
 esphome:
   name: ${device_name}
   comment: ${device_comment}
+  on_boot:
+    priority: -100
+    then:
+      - switch.turn_on: mode_low
 
 esp32:
   board: esp-wrover-kit
