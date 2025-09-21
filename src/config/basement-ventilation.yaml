@@ -57,7 +57,7 @@ switch:
 select:
   - platform: template
     id: fan_mode
-    name: "mode"
+    name: "${device_name}_mode"
     optimistic: true
     options:
       - "off"
