@@ -11,7 +11,9 @@ esphome:
   on_boot:
     priority: -100
     then:
-      - switch.turn_on: mode_low
+      - select.set:
+          id: fan_mode
+          option: "low"
 
 esp32:
   board: esp-wrover-kit
@@ -55,34 +57,34 @@ switch:
 select:
   - platform: template
     id: fan_mode
-    name: "${device_name}_mode"
+    name: "mode"
     optimistic: true
     options:
-      - "Off"
-      - "Low"
-      - "Mid"
-      - "High"
+      - "off"
+      - "low"
+      - "mid"
+      - "high"
     set_action:
       - lambda: |-
-          if (x == "Off") {
+          if (x == "off") {
             id(sw_04).turn_off();
             delay(500);
             id(sw_03).turn_off();
             delay(500);
             id(sw_01).turn_off();
-          } else if (x == "Low") {
+          } else if (x == "low") {
             id(sw_04).turn_off();
             delay(500);
             id(sw_03).turn_off();
             delay(500);
             id(sw_01).turn_on();
-          } else if (x == "Mid") {
+          } else if (x == "mid") {
             id(sw_04).turn_off();
             delay(500);
             id(sw_01).turn_on();
             delay(500);
             id(sw_03).turn_on();
-          } else if (x == "High") {
+          } else if (x == "high") {
             id(sw_01).turn_on();
             delay(500);
             id(sw_03).turn_off();
