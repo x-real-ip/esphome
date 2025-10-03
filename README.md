@@ -7,7 +7,7 @@
 
 [ESPHome](https://dsmr-reader.readthedocs.io/en/latest/explained/about.html/): A system to control ESP8266/ESP32 by simple yet powerful configuration files and control them remotely through Home Automation systems.
 
-Application running in Kubernetes <img src="https://github.com/x-real-ip/kubernetes-gitops/blob/main/assets/img/k8s.png?raw=true" alt="K8s" style="height: 40px; width:40px;"/>
+Application running in Kubernetes <img src="https://github.com/x-real-ip/infrastructure/blob/main/assets/img/k8s.png?raw=true" alt="K8s" style="height: 40px; width:40px;"/>
 
 <p align="left">
 <img src="https://github.com/x-real-ip/esphome/blob/main/assets/img/kitchen_lock.jpg?raw=true" height="250">
