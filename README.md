@@ -1,6 +1,7 @@
 # ESPHome
 
-[![Continuous integration](https://github.com/x-real-ip/esphome/actions/workflows/ci.yaml/badge.svg)](https://github.com/x-real-ip/esphome/actions/workflows/ci-cd.yaml)
+[![Check releases](https://github.com/x-real-ip/esphome/actions/workflows/new-release-monitor.yaml/badge.svg)](https://github.com/x-real-ip/esphome/actions/workflows/new-release-monitor.yaml)
+[![CI/CD](https://github.com/x-real-ip/esphome/actions/workflows/ci-cd.yaml/badge.svg)](https://github.com/x-real-ip/esphome/actions/workflows/ci-cd.yaml)
 ![GitHub repo size](https://img.shields.io/github/repo-size/x-real-ip/esphome?logo=Github)
 ![GitHub commit activity](https://img.shields.io/github/commit-activity/y/x-real-ip/esphome?logo=github)
 ![GitHub last commit (branch)](https://img.shields.io/github/last-commit/x-real-ip/esphome/main?logo=github)
