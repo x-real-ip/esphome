@@ -1,5 +1,5 @@
 ---
 mqtt:
-  broker: "mqtt${wifi_domain}"
+  broker: "mqtt$.lan.stamx.nl"
   username: !secret mqtt_user
   password: !secret mqtt_password
