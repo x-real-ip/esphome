@@ -1,5 +1,5 @@
 ---
 mqtt:
   broker: "mqtt${wifi_domain}"
-  username:  !secret mqtt_user
-  password:  !secret mqtt_password
+  username: !secret mqtt_user
+  password: !secret mqtt_password
