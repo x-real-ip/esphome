@@ -3,7 +3,6 @@ FROM ghcr.io/esphome/esphome:2025.10.5
 COPY ./src/config /config
 
 # Add .yaml and .h from zero-grid repository
-RUN git clone https://github.com/x-real-ip/zero-grid.git /tmp/zero-grid
-
-COPY /tmp/zero-grid/esphome/zero-grid.yaml /config/zero-grid.yaml
-COPY /tmp/zero-grid/esphome/zero-grid.h /config/zero-grid.h
+RUN git clone https://github.com/x-real-ip/zero-grid.git /tmp/zero-grid \
+    && cp /tmp/zero-grid/esphome/zero-grid.yaml /config/zero-grid.yaml \
+    && cp /tmp/zero-grid/esphome/zero-grid.h /config/zero-grid.h
