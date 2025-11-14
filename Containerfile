@@ -6,3 +6,6 @@ COPY ./src/config /config
 RUN git clone https://github.com/x-real-ip/zero-grid.git /tmp/zero-grid \
     && mv /tmp/zero-grid/esphome/zero-grid.yaml /config/zero-grid.yaml \
     && mv /tmp/zero-grid/esphome/zero-grid.h /config/zero-grid.h
+
+# DEBUG
+RUN ls -la /config/
