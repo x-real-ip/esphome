@@ -53,3 +53,10 @@ sensor:
     humidity:
       name: "${device_name}_dht_humidity"
     update_interval: 60s
+
+esp32_ble_tracker:
+  scan_parameters:
+    active: false # Passive is enough: the iBeacon UUID is in the advertisement
+
+bluetooth_proxy:
+  active: false # Forward advertisements only, no GATT connections

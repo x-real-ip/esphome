@@ -33,8 +33,8 @@ globals:
 api:
   encryption:
     key: !secret api_encryption_key
-  services:
-    - service: meter_value_water
+  actions:
+    - action: meter_value_water
       variables:
         meter_value: float
       then:
@@ -79,3 +79,10 @@ sensor:
     name: "${device_name}_pulse_total"
     state_class: "total_increasing"
     lambda: return id(total_water_pulses);
+
+esp32_ble_tracker:
+  scan_parameters:
+    active: false # Passive is enough: the iBeacon UUID is in the advertisement
+
+bluetooth_proxy:
+  active: false # Forward advertisements only, no GATT connections
