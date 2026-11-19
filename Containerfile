@@ -1,4 +1,4 @@
-FROM ghcr.io/esphome/esphome:2026.10.2
+FROM ghcr.io/esphome/esphome:2026.11.0
 
 COPY ./src/config /config
 
